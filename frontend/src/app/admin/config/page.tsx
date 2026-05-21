@@ -11,7 +11,7 @@ export default function SystemConfigPage() {
 
   // Initializing state with existing constants as a baseline
   const [formData, setFormData] = useState({
-    phone: BUSINESS.phone.join(', '),
+    phone: BUSINESS.phone,
     whatsapp: BUSINESS.whatsapp.replace('+', ''),
     email: BUSINESS.email,
     address: BUSINESS.address,
