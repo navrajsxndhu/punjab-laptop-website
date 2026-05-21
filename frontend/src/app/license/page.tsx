@@ -14,7 +14,7 @@ export default function LicensePage() {
     <main className="min-h-screen bg-background pb-20">
       <PageHero 
         title="License & Copyright" 
-        subtitle="Terms of use and intellectual property rights." 
+        description="Terms of use and intellectual property rights." 
       />
 
       <div className="container-narrow py-12">
