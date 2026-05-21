@@ -21,7 +21,10 @@ router.post('/', authenticate, upload.single('file'), async (req: AuthRequest, r
       return;
     }
 
-    const folder = (req.body.folder as string) || 'punjab-laptop-sirsa';
+    const folder =
+      (req.body.folder as string) ||
+      process.env.CLOUDINARY_UPLOAD_FOLDER ||
+      'punjab-laptop-sirsa';
     const result = await uploadToCloudinary(req.file.buffer, folder);
 
     res.json({

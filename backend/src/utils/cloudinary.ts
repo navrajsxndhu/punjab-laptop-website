@@ -23,15 +23,20 @@ export interface CloudinaryUploadResult {
  */
 export async function uploadToCloudinary(
   fileBuffer: Buffer,
-  folder: string = 'punjab-laptop-sirsa'
+  folder: string = process.env.CLOUDINARY_UPLOAD_FOLDER || 'punjab-laptop-sirsa'
 ): Promise<CloudinaryUploadResult> {
   return new Promise((resolve, reject) => {
+    const options: Record<string, unknown> = {
+      folder,
+      resource_type: 'image',
+      transformation: [{ quality: 'auto', fetch_format: 'auto' }],
+    };
+    if (process.env.CLOUDINARY_UPLOAD_PRESET) {
+      options.upload_preset = process.env.CLOUDINARY_UPLOAD_PRESET;
+    }
+
     const uploadStream = cloudinary.uploader.upload_stream(
-      {
-        folder,
-        resource_type: 'image',
-        transformation: [{ quality: 'auto', fetch_format: 'auto' }],
-      },
+      options,
       (error, result) => {
         if (error) {
           return reject(error);
