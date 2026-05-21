@@ -8,7 +8,7 @@
 -- bcrypt hash for 'admin123'
 -- ============================================================
 INSERT INTO admin_users (email, password_hash, name, role) VALUES
-('admin@punjablaptopsirsa.com', '$2a$12$LJ3m4ys3GZ.Y3x5HVf7kXOqzKJFm3N.eVqONBVJqOA9dLqJfW5Xuy', 'Punjab Laptop Admin', 'superadmin');
+('admin@punjablaptopsirsa.com', '$2a$12$XhPROICtQCYHFMjxjvNYauJXIPH9zwtEmCsmwMN.QiSBEWghC/DtK', 'Punjab Laptop Admin', 'superadmin');
 
 -- ============================================================
 -- Categories

@@ -17,6 +17,7 @@ interface ImageUploaderProps {
 
 export function ImageUploader({ value, onChange, multiple = true, folder, label }: ImageUploaderProps) {
   const [uploading, setUploading] = useState(false);
+  const [progress, setProgress] = useState('');
   const [dragOver, setDragOver] = useState(false);
   const toast = useToast();
 
@@ -27,16 +28,18 @@ export function ImageUploader({ value, onChange, multiple = true, folder, label 
     setUploading(true);
     try {
       const urls: string[] = [];
-      for (const file of list) {
-        const res = await adminApi.uploadImage(file, folder);
+      for (let i = 0; i < list.length; i++) {
+        setProgress(list.length > 1 ? `Uploading ${i + 1} of ${list.length}…` : 'Uploading…');
+        const res = await adminApi.uploadImage(list[i], folder);
         urls.push(res.data.url);
       }
       onChange(multiple ? [...value, ...urls] : urls.slice(0, 1));
-      toast.success('Image uploaded');
+      toast.success(urls.length > 1 ? `${urls.length} images uploaded` : 'Image uploaded');
     } catch (e) {
       toast.error(e instanceof Error ? e.message : 'Upload failed');
     } finally {
       setUploading(false);
+      setProgress('');
     }
   };
 
@@ -76,7 +79,10 @@ export function ImageUploader({ value, onChange, multiple = true, folder, label 
           onChange={(e) => e.target.files && uploadFiles(e.target.files)}
         />
         {uploading ? (
-          <Loader2 className="w-8 h-8 text-accent animate-spin mx-auto" />
+          <div className="flex flex-col items-center gap-2">
+            <Loader2 className="w-8 h-8 text-accent animate-spin" aria-hidden />
+            <p className="text-body-sm text-accent font-medium">{progress || 'Uploading…'}</p>
+          </div>
         ) : (
           <>
             <Upload className="w-8 h-8 text-text-muted mx-auto mb-2" />

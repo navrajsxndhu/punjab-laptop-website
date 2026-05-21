@@ -1,17 +1,25 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Laptop, Loader2, Lock } from 'lucide-react';
+import { Laptop, Loader2, Lock, AlertCircle } from 'lucide-react';
 import { useAdminAuth } from '@/contexts/AdminAuthContext';
+import { useToast } from '@/contexts/ToastContext';
 import { BUSINESS } from '@/lib/constants';
+import { checkApiHealth, getApiBaseUrl } from '@/lib/api-health';
 
 export default function AdminLoginPage() {
   const { login, loading: authLoading } = useAdminAuth();
+  const toast = useToast();
   const [email, setEmail] = useState('admin@punjablaptopsirsa.com');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [apiOk, setApiOk] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    checkApiHealth(true).then((s) => setApiOk(s === 'ok'));
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -19,8 +27,11 @@ export default function AdminLoginPage() {
     setLoading(true);
     try {
       await login(email, password);
+      toast.success('Welcome back');
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Login failed');
+      const msg = err instanceof Error ? err.message : 'Login failed';
+      setError(msg);
+      toast.error(msg);
     } finally {
       setLoading(false);
     }
@@ -77,6 +88,16 @@ export default function AdminLoginPage() {
                 required
               />
             </div>
+
+            {apiOk === false && (
+              <div className="flex items-start gap-2 text-body-sm text-amber-300 bg-amber-500/10 px-3 py-2 rounded-lg border border-amber-500/20">
+                <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
+                <span>
+                  API unreachable at <span className="font-mono text-xs">{getApiBaseUrl()}</span>. Check Render deploy and{' '}
+                  <code className="text-xs">NEXT_PUBLIC_API_URL</code> on Vercel.
+                </span>
+              </div>
+            )}
 
             {error && (
               <motion.p

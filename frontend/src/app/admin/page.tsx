@@ -6,23 +6,36 @@ import { Laptop, Mail, Flame, FileText, Package, ArrowRight, Plus } from 'lucide
 import { AdminPage } from '@/components/admin/AdminPage';
 import { StatCard } from '@/components/admin/StatCard';
 import { adminApi } from '@/lib/admin-api';
+import { useToast } from '@/contexts/ToastContext';
 import type { AdminStats, ContactInquiry } from '@/types';
 import { timeAgo } from '@/lib/utils';
 import { motion } from 'framer-motion';
 
 export default function AdminDashboardPage() {
+  const toast = useToast();
   const [stats, setStats] = useState<AdminStats | null>(null);
   const [inquiries, setInquiries] = useState<ContactInquiry[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
+  const load = () => {
+    setLoading(true);
+    setError(null);
     Promise.all([adminApi.getStats(), adminApi.getRecentInquiries()])
       .then(([s, i]) => {
         setStats(s.data);
         setInquiries(i.data);
       })
-      .catch(() => {})
+      .catch((e) => {
+        const msg = e instanceof Error ? e.message : 'Failed to load dashboard';
+        setError(msg);
+        toast.error(msg);
+      })
       .finally(() => setLoading(false));
+  };
+
+  useEffect(() => {
+    load();
   }, []);
 
   const quickActions = [
@@ -34,6 +47,18 @@ export default function AdminDashboardPage() {
 
   return (
     <AdminPage title="Dashboard" subtitle="Overview of your store">
+      {error && !loading && (
+        <div className="mb-6 rounded-[20px] border border-red-200 bg-red-50 px-5 py-4 flex flex-col sm:flex-row sm:items-center gap-3">
+          <p className="text-body-sm text-red-700 flex-1">{error}</p>
+          <button
+            type="button"
+            onClick={load}
+            className="text-body-sm font-semibold text-accent hover:underline shrink-0"
+          >
+            Retry
+          </button>
+        </div>
+      )}
       {loading ? (
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {[1, 2, 3, 4].map((i) => (

@@ -106,6 +106,8 @@ Expected:
 {"success":true,"data":{"status":"ok",...}}
 ```
 
+**If you get 404:** the service name/URL does not exist yet — finish Render setup and deploy first.
+
 ---
 
 ## Phase 3 — Vercel (frontend)

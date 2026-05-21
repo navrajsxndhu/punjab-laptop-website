@@ -40,7 +40,7 @@ export function Header() {
         className={cn(
           'fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-apple',
           isScrolled
-            ? 'h-16 bg-white/80 backdrop-blur-2xl shadow-[0_1px_0_0_rgba(0,0,0,0.05)] border-b border-gray-100/50'
+            ? 'h-16 glass-nav'
             : 'h-[72px] bg-transparent'
         )}
       >

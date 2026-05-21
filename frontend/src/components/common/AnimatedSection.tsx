@@ -1,7 +1,8 @@
 'use client';
 
 import { useRef } from 'react';
-import { motion, useInView, type Variant } from 'framer-motion';
+import { motion, useInView, useReducedMotion, type Variant } from 'framer-motion';
+import { APPLE_EASE } from '@/lib/motion';
 
 interface AnimatedSectionProps {
   children: React.ReactNode;
@@ -42,21 +43,22 @@ export function AnimatedSection({
   duration = 0.6,
 }: AnimatedSectionProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once, amount });
+  const isInView = useInView(ref, { once, amount, margin: '-40px' });
+  const reduce = useReducedMotion();
   const variants = directionVariants[direction];
 
   return (
     <motion.div
       ref={ref}
-      initial="hidden"
-      animate={isInView ? 'visible' : 'hidden'}
+      initial={reduce ? false : 'hidden'}
+      animate={isInView ? 'visible' : reduce ? undefined : 'hidden'}
       variants={variants}
       transition={{
-        duration,
-        delay,
-        ease: [0.25, 0.1, 0.25, 1],
+        duration: reduce ? 0 : duration,
+        delay: reduce ? 0 : delay,
+        ease: APPLE_EASE,
       }}
-      className={className}
+      className={`gpu-accelerate ${className}`}
     >
       {children}
     </motion.div>

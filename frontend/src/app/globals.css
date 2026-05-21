@@ -25,8 +25,14 @@
     text-rendering: optimizeLegibility;
   }
 
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
   body {
-    @apply bg-background text-text-primary font-sans;
+    @apply bg-background text-text-primary font-sans antialiased;
     overflow-x: hidden;
   }
 
@@ -74,11 +80,27 @@
 
   /* Glass morphism */
   .glass {
-    @apply bg-white/70 backdrop-blur-xl border border-white/20;
+    @apply bg-white/65 backdrop-blur-2xl border border-white/40 shadow-glass;
   }
 
   .glass-dark {
-    @apply bg-primary/80 backdrop-blur-xl border border-white/10;
+    @apply bg-primary/75 backdrop-blur-2xl border border-white/10 shadow-2xl;
+  }
+
+  .glass-nav {
+    @apply bg-white/70 backdrop-blur-2xl border-b border-white/40 shadow-glass;
+  }
+
+  .section-surface {
+    @apply relative section-padding;
+  }
+
+  .section-surface-alt {
+    @apply relative section-padding bg-gradient-to-b from-slate-100/60 via-white to-background;
+  }
+
+  .section-dark {
+    @apply relative section-padding bg-gradient-to-br from-primary via-primary-900 to-primary text-white;
   }
 
   /* Premium card */
@@ -104,8 +126,25 @@
            px-6 py-3 rounded-button font-medium text-white
            bg-accent hover:bg-accent-600
            shadow-soft hover:shadow-glow-blue
-           transition-all duration-300 ease-apple
-           active:scale-[0.97] active:shadow-none;
+           transition-[transform,box-shadow,background-color] duration-300 ease-apple
+           active:scale-[0.97] active:shadow-none
+           will-change-transform;
+  }
+
+  .btn-primary::before,
+  .btn-glass-shine::before {
+    content: '';
+    @apply absolute inset-0 rounded-button opacity-0 transition-opacity duration-300 pointer-events-none;
+    background: linear-gradient(135deg, rgba(255,255,255,0.28), transparent 55%);
+  }
+
+  .btn-primary:hover::before,
+  .btn-glass-shine:hover::before {
+    @apply opacity-100;
+  }
+
+  .btn-glass-shine {
+    @apply shadow-soft hover:shadow-glow-blue;
   }
 
   .btn-whatsapp {

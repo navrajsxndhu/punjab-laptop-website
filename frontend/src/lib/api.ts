@@ -15,7 +15,25 @@ interface ApiErrorBody {
 
 async function parseApiError(response: Response): Promise<string> {
   const body = (await response.json().catch(() => ({}))) as ApiErrorBody;
-  return body.error || body.message || `HTTP ${response.status}`;
+  if (response.status === 401) {
+    return body.error || 'Invalid email or password.';
+  }
+  if (response.status >= 500) {
+    return body.error || 'Server error. Please try again in a moment.';
+  }
+  return body.error || body.message || `Request failed (${response.status})`;
+}
+
+function wrapNetworkError(err: unknown): Error {
+  if (err instanceof Error) {
+    if (err.message.includes('Failed to fetch') || err.message.includes('NetworkError')) {
+      return new Error(
+        'Cannot reach the API server. Check your connection or confirm NEXT_PUBLIC_API_URL is set correctly on Vercel.'
+      );
+    }
+    return err;
+  }
+  return new Error('Network error. Please try again.');
 }
 
 class ApiClient {
@@ -58,7 +76,7 @@ class ApiClient {
         if (i < retries) await new Promise((r) => setTimeout(r, 400 * (i + 1)));
       }
     }
-    throw lastError || new Error('Network error');
+    throw wrapNetworkError(lastError || new Error('Network error'));
   }
 
   async get<T>(path: string, options?: FetchOptions): Promise<T> {
@@ -78,22 +96,36 @@ class ApiClient {
 
   async post<T>(path: string, data?: unknown, options?: FetchOptions): Promise<T> {
     const url = this.buildUrl(path, options?.params);
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        ...this.getAuthHeaders(),
-        ...options?.headers,
-      },
-      body: data ? JSON.stringify(data) : undefined,
-    });
-    if (!response.ok) throw new Error(await parseApiError(response));
-    return response.json();
+    try {
+      const response = await this.fetchWithRetry(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...this.getAuthHeaders(),
+          ...options?.headers,
+        },
+        body: data ? JSON.stringify(data) : undefined,
+      });
+      if (!response.ok) throw new Error(await parseApiError(response));
+      return response.json();
+    } catch (err) {
+      throw wrapNetworkError(err);
+    }
+  }
+
+  private async request<T>(url: string, init: RequestInit): Promise<T> {
+    try {
+      const response = await this.fetchWithRetry(url, init);
+      if (!response.ok) throw new Error(await parseApiError(response));
+      return response.json();
+    } catch (err) {
+      throw wrapNetworkError(err);
+    }
   }
 
   async put<T>(path: string, data?: unknown, options?: FetchOptions): Promise<T> {
     const url = this.buildUrl(path, options?.params);
-    const response = await fetch(url, {
+    return this.request<T>(url, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -102,13 +134,11 @@ class ApiClient {
       },
       body: data ? JSON.stringify(data) : undefined,
     });
-    if (!response.ok) throw new Error(await parseApiError(response));
-    return response.json();
   }
 
   async patch<T>(path: string, data?: unknown, options?: FetchOptions): Promise<T> {
     const url = this.buildUrl(path, options?.params);
-    const response = await fetch(url, {
+    return this.request<T>(url, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
@@ -117,13 +147,11 @@ class ApiClient {
       },
       body: data ? JSON.stringify(data) : undefined,
     });
-    if (!response.ok) throw new Error(await parseApiError(response));
-    return response.json();
   }
 
   async delete<T>(path: string, options?: FetchOptions): Promise<T> {
     const url = this.buildUrl(path, options?.params);
-    const response = await fetch(url, {
+    return this.request<T>(url, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -131,21 +159,17 @@ class ApiClient {
         ...options?.headers,
       },
     });
-    if (!response.ok) throw new Error(await parseApiError(response));
-    return response.json();
   }
 
   async upload<T>(path: string, formData: FormData): Promise<T> {
     const url = this.buildUrl(path);
-    const response = await fetch(url, {
+    return this.request<T>(url, {
       method: 'POST',
       headers: {
         ...this.getAuthHeaders(),
       },
       body: formData,
     });
-    if (!response.ok) throw new Error(await parseApiError(response));
-    return response.json();
   }
 }
 

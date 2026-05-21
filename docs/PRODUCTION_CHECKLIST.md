@@ -43,3 +43,19 @@
 - [ ] Vercel Analytics enabled (automatic with `@vercel/analytics`)
 - [ ] Google Analytics receiving events
 - [ ] Render health check: `GET /api/health`
+
+## Automated verification
+
+From repo root (PowerShell):
+
+```powershell
+.\scripts\verify-production.ps1
+```
+
+Optional overrides:
+
+```powershell
+.\scripts\verify-production.ps1 -FrontendUrl "https://your-app.vercel.app" -ApiUrl "https://your-api.onrender.com"
+```
+
+Expect: health `200`, frontend home `200`, `/admin/login` `200`, local `npm run build` passes in `backend` and `frontend`.

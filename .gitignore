@@ -40,3 +40,12 @@ next-env.d.ts
 
 # Uploads
 uploads/
+
+# Supabase local provision output
+database/.supabase-credentials.local.txt
+database/verify.sql
+supabase/.temp/
+
+# Cursor / nested clones
+.cursor/
+punjab-laptop-website/

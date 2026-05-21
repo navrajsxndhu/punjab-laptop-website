@@ -80,6 +80,9 @@ export function AdminAuthProvider({ children }: { children: React.ReactNode }) {
 
   const login = async (email: string, password: string) => {
     const res = await adminApi.login(email, password);
+    if (!res?.data?.token || !res?.data?.user) {
+      throw new Error('Invalid response from server. Please try again.');
+    }
     localStorage.setItem(TOKEN_KEY, res.data.token);
     localStorage.setItem(USER_KEY, JSON.stringify(res.data.user));
     setUser(res.data.user);

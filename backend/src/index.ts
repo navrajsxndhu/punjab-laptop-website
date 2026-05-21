@@ -8,6 +8,7 @@ import dotenv from 'dotenv';
 import { generalLimiter } from './middleware/rateLimiter';
 import { sanitizeBody } from './middleware/sanitize';
 import { validateEnvironment } from './utils/validateEnv';
+import { createCorsOptions } from './utils/cors';
 
 import authRoutes from './routes/auth';
 import productRoutes from './routes/products';
@@ -26,17 +27,10 @@ validateEnvironment();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
-const CORS_ORIGIN = process.env.CORS_ORIGIN || 'http://localhost:3000';
-
 app.use(helmet());
 app.use(compression());
 app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
-app.use(
-  cors({
-    origin: CORS_ORIGIN.split(',').map((o) => o.trim()),
-    credentials: true,
-  })
-);
+app.use(cors(createCorsOptions()));
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 app.use(sanitizeBody);
