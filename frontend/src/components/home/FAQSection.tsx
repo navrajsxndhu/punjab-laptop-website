@@ -10,7 +10,7 @@ export function FAQSection() {
   const [open, setOpen] = useState<number | null>(0);
 
   return (
-    <section className="section-padding bg-white" aria-labelledby="faq-heading">
+    <section className="section-padding bg-background border-t border-white/10" aria-labelledby="faq-heading">
       <div className="container-narrow">
         <SectionHeader
           overline="FAQ"
@@ -35,7 +35,7 @@ export function FAQSection() {
                   className="w-full flex items-center justify-between gap-4 p-5 lg:p-6 text-left focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:outline-none"
                 >
                   <span className="font-medium text-body-md text-text-primary pr-4">{item.question}</span>
-                  <span className="shrink-0 w-8 h-8 rounded-full bg-white flex items-center justify-center shadow-soft">
+                  <span className="shrink-0 w-8 h-8 rounded-full bg-white/5 flex items-center justify-center shadow-soft">
                     {isOpen ? <Minus className="w-4 h-4 text-accent" /> : <Plus className="w-4 h-4 text-text-muted" />}
                   </span>
                 </button>

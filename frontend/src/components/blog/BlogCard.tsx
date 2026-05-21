@@ -23,7 +23,7 @@ export function BlogCard({ post, index = 0, featured = false }: BlogCardProps) {
     >
       <Link href={`/blog/${post.slug}`} className="group block h-full">
         <div
-          className={`relative h-full overflow-hidden rounded-card bg-white shadow-soft transition-all duration-400 ease-apple hover:shadow-card-hover hover:-translate-y-1 ${
+          className={`card-premium p-0 relative h-full overflow-hidden transition-all duration-400 ease-apple hover:-translate-y-1 ${
             featured ? 'grid lg:grid-cols-2' : 'flex flex-col'
           }`}
         >

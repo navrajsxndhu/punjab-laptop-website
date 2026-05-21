@@ -10,7 +10,7 @@ interface BrandStripProps {
 
 export function BrandStrip({ brands }: BrandStripProps) {
   return (
-    <section className="section-padding-sm bg-white border-y border-gray-100">
+    <section className="section-padding-sm bg-background border-y border-white/10">
       <div className="container-wide">
         <p className="text-center text-caption font-semibold tracking-[0.2em] uppercase text-text-muted mb-8">
           Authorized Dealer — All Major Brands

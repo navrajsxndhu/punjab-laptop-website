@@ -13,7 +13,7 @@ const stats = [
 
 export function StatsBar() {
   return (
-    <section className="border-y border-gray-100 bg-white/50 backdrop-blur-sm">
+    <section className="border-y border-white/10 bg-background/50 backdrop-blur-sm">
       <div className="container-wide py-10">
         <AnimatedSection>
           <StaggerContainer className="grid grid-cols-2 lg:grid-cols-4 gap-8">

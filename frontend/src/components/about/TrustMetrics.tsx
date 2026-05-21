@@ -42,7 +42,7 @@ const metrics = [
 
 export function TrustMetrics() {
   return (
-    <section className="section-padding bg-white">
+    <section className="section-padding bg-background border-t border-white/10">
       <div className="container-wide">
         <StaggerContainer className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {metrics.map((m) => (

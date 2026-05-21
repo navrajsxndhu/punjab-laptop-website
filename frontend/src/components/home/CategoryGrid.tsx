@@ -25,7 +25,7 @@ export function CategoryGrid({ categories }: CategoryGridProps) {
             <StaggerItem key={cat.slug}>
               <Link href={`/products?category=${cat.slug}`}>
                 <motion.div
-                  className="group relative p-6 lg:p-8 rounded-card bg-white shadow-soft text-center transition-all duration-400 ease-apple hover:shadow-card-hover hover:-translate-y-1"
+                  className="group relative p-6 lg:p-8 rounded-card bg-white/5 border border-white/10 shadow-soft text-center transition-all duration-400 ease-apple hover:shadow-card-hover hover:-translate-y-1"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                 >

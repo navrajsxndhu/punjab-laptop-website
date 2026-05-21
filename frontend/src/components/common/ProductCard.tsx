@@ -43,12 +43,12 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
       }}
       className="group"
     >
-      <div className="relative bg-white rounded-card overflow-hidden shadow-soft transition-all duration-400 ease-apple hover:shadow-card-hover hover:-translate-y-1.5">
+      <div className="card-premium p-0 relative overflow-hidden group-hover:-translate-y-1.5">
         {/* Gradient border glow on hover */}
         <div className="absolute inset-0 rounded-card bg-gradient-to-br from-accent/20 via-transparent to-whatsapp/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10 blur-sm scale-[1.02]" />
 
         {/* Image Section */}
-        <Link href={`/products/${product.slug}`} className="block relative aspect-[4/3] overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100">
+        <Link href={`/products/${product.slug}`} className="block relative aspect-[4/3] overflow-hidden bg-white/5">
           {product.images?.[0] ? (
             <img
               src={product.images[0]}
@@ -112,19 +112,19 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
           {/* Specs */}
           <div className="flex flex-wrap gap-2 mb-4">
             {product.processor && (
-              <span className="inline-flex items-center gap-1 text-caption text-text-muted bg-gray-50 px-2 py-1 rounded-md">
+              <span className="inline-flex items-center gap-1 text-caption text-text-muted bg-white/5 border border-white/10 px-2 py-1 rounded-md">
                 <Cpu className="w-3 h-3" />
                 {product.processor}
               </span>
             )}
             {product.ram && (
-              <span className="inline-flex items-center gap-1 text-caption text-text-muted bg-gray-50 px-2 py-1 rounded-md">
+              <span className="inline-flex items-center gap-1 text-caption text-text-muted bg-white/5 border border-white/10 px-2 py-1 rounded-md">
                 <MemoryStick className="w-3 h-3" />
                 {product.ram}
               </span>
             )}
             {product.storage && (
-              <span className="inline-flex items-center gap-1 text-caption text-text-muted bg-gray-50 px-2 py-1 rounded-md">
+              <span className="inline-flex items-center gap-1 text-caption text-text-muted bg-white/5 border border-white/10 px-2 py-1 rounded-md">
                 <HardDrive className="w-3 h-3" />
                 {product.storage}
               </span>
