@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { PageHeader } from '@/components/common/PageHeader';
+import { PageHero } from '@/components/common/PageHero';
 import { SEO } from '@/lib/constants';
 
 export const metadata: Metadata = {
@@ -12,7 +12,7 @@ export default function LicensePage() {
 
   return (
     <main className="min-h-screen bg-background pb-20">
-      <PageHeader 
+      <PageHero 
         title="License & Copyright" 
         subtitle="Terms of use and intellectual property rights." 
       />
