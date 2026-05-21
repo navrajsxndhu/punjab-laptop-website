@@ -142,7 +142,7 @@ export default function AdminProductsPage() {
                         <button
                           type="button"
                           onClick={() => setDeleteId(p.id)}
-                          className="p-2 rounded-lg hover:bg-red-50 text-red-500 transition-colors"
+                          className="p-2 rounded-lg hover:bg-red-500/10 text-red-500 transition-colors"
                         >
                           <Trash2 className="w-4 h-4" />
                         </button>

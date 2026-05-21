@@ -9,14 +9,14 @@ import { Copy, Check, Eye, EyeOff } from 'lucide-react';
 
 export default function SecurityVaultPage() {
   const { success, error } = useToast();
-  const { logout } = useAdminAuth();
+  const { user, logout } = useAdminAuth();
   const [copied, setCopied] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
 
   const [formData, setFormData] = useState({
-    username: 'Naveezy sandhu',
+    username: user?.email || '',
     password: '*************',
     currentPassword: ''
   });

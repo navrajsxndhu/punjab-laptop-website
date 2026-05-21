@@ -53,7 +53,7 @@ export default function AdminBannersPage() {
               </div>
               <div className="flex gap-1">
                 <button type="button" onClick={() => { setEditing(b); setForm({ title: b.title || '', subtitle: b.subtitle || '', image_url: b.image_url, link: b.link || '', active: b.active, sort_order: b.sort_order }); setOpen(true); }} className="p-2 hover:bg-accent/10 rounded-lg text-accent"><Pencil className="w-4 h-4" /></button>
-                <button type="button" onClick={() => setDeleteId(b.id)} className="p-2 hover:bg-red-50 rounded-lg text-red-500"><Trash2 className="w-4 h-4" /></button>
+                <button type="button" onClick={() => setDeleteId(b.id)} className="p-2 hover:bg-red-500/10 rounded-lg text-red-500"><Trash2 className="w-4 h-4" /></button>
               </div>
             </div>
           </motion.div>

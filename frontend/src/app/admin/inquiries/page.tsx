@@ -80,7 +80,7 @@ export default function AdminInquiriesPage() {
               key={inq.id}
               className={cn(
                 'rounded-[20px] p-5 lg:p-6 border transition-all',
-                inq.read ? 'bg-white border-white/10 shadow-soft' : 'bg-accent/5 border-accent/20 shadow-soft'
+                inq.read ? 'bg-white/5 border-white/10 shadow-soft' : 'bg-accent/5 border-accent/20 shadow-soft'
               )}
             >
               <div className="flex flex-wrap justify-between gap-3 mb-3">
@@ -98,7 +98,7 @@ export default function AdminInquiriesPage() {
                     Mark resolved
                   </button>
                 )}
-                <button type="button" onClick={() => setDeleteId(inq.id)} className="btn-ghost text-body-sm py-2 text-red-500 hover:bg-red-50">
+                <button type="button" onClick={() => setDeleteId(inq.id)} className="btn-ghost text-body-sm py-2 text-red-500 hover:bg-red-500/10">
                   <Trash2 className="w-4 h-4" />
                   Delete
                 </button>

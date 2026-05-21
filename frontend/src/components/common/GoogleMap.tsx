@@ -16,9 +16,9 @@ export function GoogleMap({ className = '', title = 'Find Us' }: GoogleMapProps)
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.6 }}
-      className={`rounded-card overflow-hidden shadow-soft border border-gray-100 bg-white ${className}`}
+      className={`rounded-card overflow-hidden shadow-soft border border-white/10 bg-surface/50 ${className}`}
     >
-      <div className="p-5 lg:p-6 border-b border-gray-100 flex items-start gap-3">
+      <div className="p-5 lg:p-6 border-b border-white/10 flex items-start gap-3">
         <MapPin className="w-5 h-5 text-accent shrink-0 mt-0.5" />
         <div>
           <h3 className="font-display font-semibold text-heading-sm text-text-primary">{title}</h3>

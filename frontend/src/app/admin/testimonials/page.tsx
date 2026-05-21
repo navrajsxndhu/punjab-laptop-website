@@ -48,7 +48,7 @@ export default function AdminTestimonialsPage() {
             {t.verified && <span className="badge-green text-xs mt-1">Verified</span>}
             <div className="flex gap-2 mt-4">
               <button type="button" onClick={() => { setEditing(t); setForm({ name: t.name, text: t.text, rating: t.rating, location: t.location || '', avatar_url: t.avatar_url || '', verified: t.verified }); setOpen(true); }} className="p-2 hover:bg-accent/10 rounded-lg text-accent"><Pencil className="w-4 h-4" /></button>
-              <button type="button" onClick={() => setDeleteId(t.id)} className="p-2 hover:bg-red-50 rounded-lg text-red-500"><Trash2 className="w-4 h-4" /></button>
+              <button type="button" onClick={() => setDeleteId(t.id)} className="p-2 hover:bg-red-500/10 rounded-lg text-red-500"><Trash2 className="w-4 h-4" /></button>
             </div>
           </motion.div>
         ))}

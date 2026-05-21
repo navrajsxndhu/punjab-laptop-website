@@ -34,11 +34,11 @@ export function WhatsAppFloat() {
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: 10, scale: 0.9 }}
                 transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-                className="relative bg-white rounded-2xl shadow-large p-4 max-w-[240px]"
+                className="relative bg-surface/90 backdrop-blur-md border border-white/10 rounded-2xl shadow-large p-4 max-w-[240px]"
               >
                 <button
                   onClick={() => setShowTooltip(false)}
-                  className="absolute top-2 right-2 w-6 h-6 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors"
+                  className="absolute top-2 right-2 w-6 h-6 flex items-center justify-center rounded-full hover:bg-white/10 transition-colors"
                   aria-label="Close"
                 >
                   <X className="w-3 h-3 text-text-muted" />
@@ -50,7 +50,7 @@ export function WhatsAppFloat() {
                   Chat with us on WhatsApp for instant assistance
                 </p>
                 {/* Arrow */}
-                <div className="absolute -bottom-2 right-8 w-4 h-4 bg-white rotate-45 shadow-sm" />
+                <div className="absolute -bottom-2 right-8 w-4 h-4 bg-surface/90 border-b border-r border-white/10 rotate-45 shadow-sm" />
               </motion.div>
             )}
           </AnimatePresence>

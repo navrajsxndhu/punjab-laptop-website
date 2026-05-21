@@ -33,7 +33,7 @@ export default function AdminSettingsPage() {
               <dd className="font-medium text-text-primary capitalize">{user?.role}</dd>
             </div>
           </dl>
-          <button type="button" onClick={logout} className="btn-outline mt-6 text-red-600 border-red-200 hover:bg-red-50 hover:border-red-300">
+          <button type="button" onClick={logout} className="btn-outline mt-6 text-red-400 border-red-500/20 hover:bg-red-500/10 hover:border-red-500/30">
             <LogOut className="w-4 h-4" />
             Sign out
           </button>
