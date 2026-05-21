@@ -24,7 +24,8 @@ Full-stack production-ready website for **Punjab Laptop Sirsa (Punjab Laptop Sol
 - 🛒 **Product Showcase** — Browse laptops with filters, search, and sorting
 - 💬 **WhatsApp Integration** — One-tap inquiry with pre-filled product details
 - 📝 **Admin CMS Dashboard** — Full product/offer/blog/banner management
-- 🔍 **SEO Optimized** — Dynamic meta tags, schema.org, sitemap, Open Graph
+- 🔍 **SEO Optimized** — Dynamic sitemap, robots.txt, schema.org (LocalBusiness, Product, FAQ, Blog), canonical URLs
+- 📊 **Analytics** — Google Analytics + Vercel Analytics with conversion events
 - 📱 **Mobile-First Design** — Responsive across all devices
 - 🔒 **Secure** — JWT auth, rate limiting, input validation, security headers
 
@@ -306,6 +307,24 @@ Access at `/admin/login` — manage:
 | **YouTube** | [@punjablaptopsolution](https://youtube.com/@punjablaptopsolution) |
 | **Rating** | 4.7★ on JustDial (200+ reviews) |
 | **Hours** | Mon–Sat: 9:30 AM – 7:00 PM, Sunday: Closed |
+
+---
+
+## 📋 Production (Phase 5)
+
+- **SEO:** `/sitemap.xml`, `/robots.txt`, FAQ schema, breadcrumbs, rich product metadata
+- **Performance:** ISR (`revalidate`), code-split homepage sections, lazy images, API retry
+- **Security:** CSP headers, body sanitization, auth rate limits, HTML sanitization for blog
+- **Docs:** [Production Checklist](docs/PRODUCTION_CHECKLIST.md) · [API Reference](docs/API.md) · [Deployment](docs/deployment.md)
+
+### Analytics events
+
+| Event | Trigger |
+|-------|---------|
+| `whatsapp_click` | WhatsApp CTA (float, product card, detail) |
+| `product_view` | Product detail page |
+| `contact_submit` | Contact form success |
+| `page_view` | Route change (GA) |
 
 ---
 

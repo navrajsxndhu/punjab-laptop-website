@@ -3,6 +3,7 @@ import bcrypt from 'bcryptjs';
 import supabase from '../utils/supabase';
 import { authenticate, generateToken, verifyToken } from '../middleware/auth';
 import { validateLogin } from '../middleware/validate';
+import { authLimiter } from '../middleware/rateLimiter';
 import { AdminUser, AuthRequest, ApiResponse, AuthPayload } from '../types';
 
 const router = Router();
@@ -11,7 +12,7 @@ const router = Router();
  * POST /api/auth/login
  * Authenticate admin user and return JWT token.
  */
-router.post('/login', validateLogin, async (req: Request, res: Response): Promise<void> => {
+router.post('/login', authLimiter, validateLogin, async (req: Request, res: Response): Promise<void> => {
   try {
     const { email, password } = req.body;
 
@@ -109,6 +110,34 @@ router.post('/verify', authenticate, async (req: AuthRequest, res: Response): Pr
       success: false,
       error: 'Internal server error.',
     } as ApiResponse);
+  }
+});
+
+/**
+ * POST /api/auth/refresh
+ * Issue a new JWT when the current token is still valid (session extension).
+ */
+router.post('/refresh', authenticate, async (req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    if (!req.admin) {
+      res.status(401).json({ success: false, error: 'Unauthorized.' } as ApiResponse);
+      return;
+    }
+
+    const token = generateToken({
+      id: req.admin.id,
+      email: req.admin.email,
+      role: req.admin.role,
+    });
+
+    res.json({
+      success: true,
+      data: { token },
+      message: 'Token refreshed.',
+    } as ApiResponse);
+  } catch (err) {
+    console.error('Refresh error:', err);
+    res.status(500).json({ success: false, error: 'Internal server error.' } as ApiResponse);
   }
 });
 

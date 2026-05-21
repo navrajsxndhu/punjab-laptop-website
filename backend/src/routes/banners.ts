@@ -5,6 +5,25 @@ import { AuthRequest, ApiResponse } from '../types';
 
 const router = Router();
 
+router.get('/manage', authenticate, async (_req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    const { data, error } = await supabase
+      .from('banners')
+      .select('*')
+      .order('sort_order', { ascending: true });
+
+    if (error) {
+      res.status(500).json({ success: false, error: 'Failed to fetch banners.' } as ApiResponse);
+      return;
+    }
+
+    res.json({ success: true, data } as ApiResponse);
+  } catch (err) {
+    console.error('Banners manage error:', err);
+    res.status(500).json({ success: false, error: 'Internal server error.' } as ApiResponse);
+  }
+});
+
 router.get('/', async (_req: Request, res: Response): Promise<void> => {
   try {
     const { data, error } = await supabase

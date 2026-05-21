@@ -137,6 +137,30 @@ router.get('/', async (req: Request, res: Response): Promise<void> => {
 });
 
 /**
+ * GET /api/products/by-id/:id
+ * Admin – get product by UUID.
+ */
+router.get('/by-id/:id', authenticate, async (req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    const { data, error } = await supabase
+      .from('products')
+      .select('*, brands(name, slug, logo_url), categories(name, slug)')
+      .eq('id', req.params.id)
+      .single();
+
+    if (error || !data) {
+      res.status(404).json({ success: false, error: 'Product not found.' } as ApiResponse);
+      return;
+    }
+
+    res.json({ success: true, data } as ApiResponse);
+  } catch (err) {
+    console.error('Product by-id error:', err);
+    res.status(500).json({ success: false, error: 'Internal server error.' } as ApiResponse);
+  }
+});
+
+/**
  * GET /api/products/:slug
  * Public – get a single product by slug.
  */
@@ -186,6 +210,8 @@ router.post('/', authenticate, validateProduct, async (req: AuthRequest, res: Re
       featured: req.body.featured ?? false,
       warranty: req.body.warranty || null,
       description: req.body.description || null,
+      condition: req.body.condition || 'excellent',
+      os: req.body.os || null,
     };
 
     const { data, error } = await supabase
@@ -223,7 +249,7 @@ router.put('/:id', authenticate, async (req: AuthRequest, res: Response): Promis
     const allowedFields = [
       'name', 'slug', 'brand_id', 'category_id', 'processor', 'ram',
       'storage', 'display_size', 'graphics', 'price', 'sale_price',
-      'images', 'specs', 'in_stock', 'featured', 'warranty', 'description',
+      'images', 'specs', 'in_stock', 'featured', 'warranty', 'description', 'condition', 'os',
     ];
 
     const updateData: Record<string, unknown> = {};

@@ -67,6 +67,40 @@ router.get('/inquiries', async (_req: AuthRequest, res: Response): Promise<void>
   }
 });
 
+router.get('/inquiries/recent', async (_req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    const { data, error } = await supabase
+      .from('contact_inquiries')
+      .select('*')
+      .order('created_at', { ascending: false })
+      .limit(8);
+
+    if (error) {
+      res.status(500).json({ success: false, error: 'Failed to fetch inquiries.' } as ApiResponse);
+      return;
+    }
+
+    res.json({ success: true, data } as ApiResponse);
+  } catch (err) {
+    console.error('Recent inquiries error:', err);
+    res.status(500).json({ success: false, error: 'Internal server error.' } as ApiResponse);
+  }
+});
+
+router.delete('/inquiries/:id', async (req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    const { error } = await supabase.from('contact_inquiries').delete().eq('id', req.params.id);
+    if (error) {
+      res.status(400).json({ success: false, error: error.message } as ApiResponse);
+      return;
+    }
+    res.json({ success: true, message: 'Inquiry deleted.' } as ApiResponse);
+  } catch (err) {
+    console.error('Inquiry delete error:', err);
+    res.status(500).json({ success: false, error: 'Internal server error.' } as ApiResponse);
+  }
+});
+
 router.patch('/inquiries/:id/read', async (req: AuthRequest, res: Response): Promise<void> => {
   try {
     const { data, error } = await supabase

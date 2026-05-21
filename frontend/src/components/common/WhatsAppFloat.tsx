@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MessageCircle, X } from 'lucide-react';
 import { BUSINESS, getWhatsAppUrl } from '@/lib/constants';
+import { trackEvent } from '@/lib/analytics';
 
 export function WhatsAppFloat() {
   const [isVisible, setIsVisible] = useState(false);
@@ -67,7 +68,10 @@ export function WhatsAppFloat() {
             whileTap={{ scale: 0.9 }}
             className="relative flex items-center justify-center w-14 h-14 rounded-full bg-whatsapp text-white shadow-lg hover:shadow-glow-green transition-shadow duration-300"
             aria-label="Chat on WhatsApp"
-            onClick={() => setShowTooltip(false)}
+            onClick={() => {
+              trackEvent('whatsapp_click', { source: 'floating_button' });
+              setShowTooltip(false);
+            }}
           >
             {/* Pulse ring */}
             <span className="absolute inset-0 rounded-full bg-whatsapp animate-ping opacity-20" />

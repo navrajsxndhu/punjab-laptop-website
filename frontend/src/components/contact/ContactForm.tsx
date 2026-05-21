@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Send, Loader2, CheckCircle2, AlertCircle } from 'lucide-react';
 import { api } from '@/lib/api';
+import { trackEvent } from '@/lib/analytics';
 import { cn } from '@/lib/utils';
 
 interface FormErrors {
@@ -53,6 +54,7 @@ export function ContactForm() {
         message: message.trim(),
       });
       setSuccess(true);
+      trackEvent('contact_submit');
       setName('');
       setEmail('');
       setPhone('');

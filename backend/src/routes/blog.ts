@@ -1,9 +1,49 @@
 import { Router, Request, Response } from 'express';
 import supabase from '../utils/supabase';
 import { authenticate } from '../middleware/auth';
+import { validateBlogPost } from '../middleware/validate';
 import { AuthRequest, ApiResponse } from '../types';
 
 const router = Router();
+
+router.get('/manage/post/:id', authenticate, async (req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    const { data, error } = await supabase
+      .from('blog_posts')
+      .select('*')
+      .eq('id', req.params.id)
+      .single();
+
+    if (error || !data) {
+      res.status(404).json({ success: false, error: 'Blog post not found.' } as ApiResponse);
+      return;
+    }
+
+    res.json({ success: true, data } as ApiResponse);
+  } catch (err) {
+    console.error('Blog post fetch error:', err);
+    res.status(500).json({ success: false, error: 'Internal server error.' } as ApiResponse);
+  }
+});
+
+router.get('/manage', authenticate, async (_req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    const { data, error } = await supabase
+      .from('blog_posts')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      res.status(500).json({ success: false, error: 'Failed to fetch blog posts.' } as ApiResponse);
+      return;
+    }
+
+    res.json({ success: true, data } as ApiResponse);
+  } catch (err) {
+    console.error('Blog manage error:', err);
+    res.status(500).json({ success: false, error: 'Internal server error.' } as ApiResponse);
+  }
+});
 
 router.get('/', async (_req: Request, res: Response): Promise<void> => {
   try {
@@ -46,7 +86,7 @@ router.get('/:slug', async (req: Request, res: Response): Promise<void> => {
   }
 });
 
-router.post('/', authenticate, async (req: AuthRequest, res: Response): Promise<void> => {
+router.post('/', authenticate, validateBlogPost, async (req: AuthRequest, res: Response): Promise<void> => {
   try {
     const { data, error } = await supabase
       .from('blog_posts')

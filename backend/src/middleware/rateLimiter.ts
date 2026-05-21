@@ -17,6 +17,17 @@ export const generalLimiter = rateLimit({
 /**
  * Contact form rate limiter: 5 requests per hour per IP.
  */
+export const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 20,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: {
+    success: false,
+    error: 'Too many login attempts. Please try again later.',
+  },
+});
+
 export const contactLimiter = rateLimit({
   windowMs: 60 * 60 * 1000, // 1 hour
   max: 5,

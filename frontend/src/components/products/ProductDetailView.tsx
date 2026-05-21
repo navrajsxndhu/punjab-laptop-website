@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import {
@@ -15,19 +15,34 @@ import {
   X,
 } from 'lucide-react';
 import type { Product } from '@/types';
+import { Breadcrumbs, type BreadcrumbItem } from '@/components/seo/Breadcrumbs';
+import { trackEvent } from '@/lib/analytics';
 import { formatPrice, calculateDiscount, cn } from '@/lib/utils';
 import { getWhatsAppUrl, CONDITION_LABELS } from '@/lib/constants';
 
 interface ProductDetailViewProps {
   product: Product;
   siteUrl: string;
+  breadcrumbs?: BreadcrumbItem[];
 }
 
-export function ProductDetailView({ product, siteUrl }: ProductDetailViewProps) {
+export function ProductDetailView({ product, siteUrl, breadcrumbs }: ProductDetailViewProps) {
   const [activeImage, setActiveImage] = useState(0);
   const discount = calculateDiscount(product.price, product.sale_price);
   const displayPrice = product.sale_price || product.price;
   const productUrl = `${siteUrl}/products/${product.slug}`;
+
+  useEffect(() => {
+    trackEvent('product_view', { product_slug: product.slug, product_name: product.name });
+  }, [product.slug, product.name]);
+
+  const trackWhatsApp = (type: 'buy' | 'inquiry') => {
+    trackEvent('whatsapp_click', {
+      product_slug: product.slug,
+      product_name: product.name,
+      action: type,
+    });
+  };
 
   const buyMessage = getWhatsAppUrl(
     product.name,
@@ -55,13 +70,17 @@ export function ProductDetailView({ product, siteUrl }: ProductDetailViewProps) 
   return (
     <div className="min-h-screen bg-background">
       <div className="container-wide py-8 lg:py-12">
-        <Link
-          href="/products"
-          className="inline-flex items-center gap-2 text-body-sm text-text-muted hover:text-accent mb-8 transition-colors"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          Back to Products
-        </Link>
+        {breadcrumbs ? (
+          <Breadcrumbs items={breadcrumbs} />
+        ) : (
+          <Link
+            href="/products"
+            className="inline-flex items-center gap-2 text-body-sm text-text-muted hover:text-accent mb-8 transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Back to Products
+          </Link>
+        )}
 
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-16">
           {/* Gallery */}
@@ -75,6 +94,8 @@ export function ProductDetailView({ product, siteUrl }: ProductDetailViewProps) 
                 <img
                   src={product.images[activeImage]}
                   alt={product.name}
+                  loading={activeImage === 0 ? 'eager' : 'lazy'}
+                  decoding="async"
                   className="w-full h-full object-contain p-6"
                 />
               ) : (
@@ -152,11 +173,11 @@ export function ProductDetailView({ product, siteUrl }: ProductDetailViewProps) 
             </div>
 
             <div className="flex flex-col sm:flex-row gap-3 mb-10">
-              <a href={buyMessage} target="_blank" rel="noopener noreferrer" className="btn-whatsapp flex-1">
+              <a href={buyMessage} target="_blank" rel="noopener noreferrer" className="btn-whatsapp flex-1" onClick={() => trackWhatsApp('buy')}>
                 <ShoppingBag className="w-4 h-4" />
                 Buy via WhatsApp
               </a>
-              <a href={inquiryMessage} target="_blank" rel="noopener noreferrer" className="btn-outline flex-1">
+              <a href={inquiryMessage} target="_blank" rel="noopener noreferrer" className="btn-outline flex-1" onClick={() => trackWhatsApp('inquiry')}>
                 <MessageCircle className="w-4 h-4" />
                 Inquiry via WhatsApp
               </a>

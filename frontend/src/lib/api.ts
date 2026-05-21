@@ -8,6 +8,16 @@ interface FetchOptions extends RequestInit {
   params?: Record<string, string | number | boolean | undefined>;
 }
 
+interface ApiErrorBody {
+  error?: string;
+  message?: string;
+}
+
+async function parseApiError(response: Response): Promise<string> {
+  const body = (await response.json().catch(() => ({}))) as ApiErrorBody;
+  return body.error || body.message || `HTTP ${response.status}`;
+}
+
 class ApiClient {
   private baseUrl: string;
 
@@ -33,9 +43,27 @@ class ApiClient {
     return token ? { Authorization: `Bearer ${token}` } : {};
   }
 
+  private async fetchWithRetry(url: string, init: RequestInit, retries = 2): Promise<Response> {
+    let lastError: Error | null = null;
+    for (let i = 0; i <= retries; i++) {
+      try {
+        const res = await fetch(url, init);
+        if (res.status >= 500 && i < retries) {
+          await new Promise((r) => setTimeout(r, 400 * (i + 1)));
+          continue;
+        }
+        return res;
+      } catch (e) {
+        lastError = e instanceof Error ? e : new Error('Network error');
+        if (i < retries) await new Promise((r) => setTimeout(r, 400 * (i + 1)));
+      }
+    }
+    throw lastError || new Error('Network error');
+  }
+
   async get<T>(path: string, options?: FetchOptions): Promise<T> {
     const url = this.buildUrl(path, options?.params);
-    const response = await fetch(url, {
+    const response = await this.fetchWithRetry(url, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -44,10 +72,7 @@ class ApiClient {
       },
       next: options?.next,
     });
-    if (!response.ok) {
-      const error = await response.json().catch(() => ({ message: 'Network error' }));
-      throw new Error(error.message || `HTTP ${response.status}`);
-    }
+    if (!response.ok) throw new Error(await parseApiError(response));
     return response.json();
   }
 
@@ -62,10 +87,7 @@ class ApiClient {
       },
       body: data ? JSON.stringify(data) : undefined,
     });
-    if (!response.ok) {
-      const error = await response.json().catch(() => ({ message: 'Network error' }));
-      throw new Error(error.message || `HTTP ${response.status}`);
-    }
+    if (!response.ok) throw new Error(await parseApiError(response));
     return response.json();
   }
 
@@ -80,10 +102,22 @@ class ApiClient {
       },
       body: data ? JSON.stringify(data) : undefined,
     });
-    if (!response.ok) {
-      const error = await response.json().catch(() => ({ message: 'Network error' }));
-      throw new Error(error.message || `HTTP ${response.status}`);
-    }
+    if (!response.ok) throw new Error(await parseApiError(response));
+    return response.json();
+  }
+
+  async patch<T>(path: string, data?: unknown, options?: FetchOptions): Promise<T> {
+    const url = this.buildUrl(path, options?.params);
+    const response = await fetch(url, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        ...this.getAuthHeaders(),
+        ...options?.headers,
+      },
+      body: data ? JSON.stringify(data) : undefined,
+    });
+    if (!response.ok) throw new Error(await parseApiError(response));
     return response.json();
   }
 
@@ -97,10 +131,7 @@ class ApiClient {
         ...options?.headers,
       },
     });
-    if (!response.ok) {
-      const error = await response.json().catch(() => ({ message: 'Network error' }));
-      throw new Error(error.message || `HTTP ${response.status}`);
-    }
+    if (!response.ok) throw new Error(await parseApiError(response));
     return response.json();
   }
 
@@ -113,12 +144,12 @@ class ApiClient {
       },
       body: formData,
     });
-    if (!response.ok) {
-      const error = await response.json().catch(() => ({ message: 'Upload failed' }));
-      throw new Error(error.message || `HTTP ${response.status}`);
-    }
+    if (!response.ok) throw new Error(await parseApiError(response));
     return response.json();
   }
 }
+
+export const TOKEN_KEY = 'admin_token';
+export const USER_KEY = 'admin_user';
 
 export const api = new ApiClient(API_URL);

@@ -5,6 +5,8 @@ import { motion, useScroll, useSpring } from 'framer-motion';
 import { ArrowLeft, Clock, User } from 'lucide-react';
 import type { BlogPost } from '@/types';
 import { formatDate } from '@/lib/utils';
+import { sanitizeHtml } from '@/lib/sanitize';
+import { useMemo } from 'react';
 import { BlogCard } from './BlogCard';
 
 interface BlogArticleProps {
@@ -15,6 +17,7 @@ interface BlogArticleProps {
 export function BlogArticle({ post, relatedPosts }: BlogArticleProps) {
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 });
+  const safeContent = useMemo(() => sanitizeHtml(post.content), [post.content]);
 
   return (
     <>
@@ -77,7 +80,7 @@ export function BlogArticle({ post, relatedPosts }: BlogArticleProps) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.15 }}
             className="article-prose px-2 lg:px-4"
-            dangerouslySetInnerHTML={{ __html: post.content }}
+            dangerouslySetInnerHTML={{ __html: safeContent }}
           />
         </div>
 

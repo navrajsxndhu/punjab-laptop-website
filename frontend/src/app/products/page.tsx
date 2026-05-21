@@ -1,9 +1,14 @@
 import type { Metadata } from 'next';
 import { ProductsPageClient } from '@/components/products/ProductsPageClient';
 import { fetchProducts, fetchCategories, fetchBrands } from '@/lib/products';
+import { canonical } from '@/lib/seo';
+
+export const revalidate = 120;
+
 export const metadata: Metadata = {
   title: 'All Laptops',
   description: 'Browse new and refurbished laptops from Dell, HP, Lenovo, ASUS, Apple & more. Best prices in Sirsa with warranty.',
+  alternates: { canonical: canonical('/products') },
 };
 
 interface ProductsPageProps {

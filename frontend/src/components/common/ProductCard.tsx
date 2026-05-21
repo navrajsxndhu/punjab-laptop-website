@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Product } from '@/types';
 import { formatPrice, calculateDiscount, cn } from '@/lib/utils';
 import { getWhatsAppUrl, CONDITION_LABELS } from '@/lib/constants';
+import { trackEvent } from '@/lib/analytics';
 import { MessageCircle, Cpu, MemoryStick, HardDrive, Check, X } from 'lucide-react';
 
 interface ProductCardProps {
@@ -52,6 +53,8 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
             <img
               src={product.images[0]}
               alt={product.name}
+              loading="lazy"
+              decoding="async"
               className="w-full h-full object-contain p-4 transition-transform duration-600 ease-apple group-hover:scale-110"
             />
           ) : (
@@ -163,6 +166,13 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
             target="_blank"
             rel="noopener noreferrer"
             className="btn-whatsapp w-full text-body-sm"
+            onClick={() =>
+              trackEvent('whatsapp_click', {
+                product_slug: product.slug,
+                product_name: product.name,
+                source: 'product_card',
+              })
+            }
           >
             <MessageCircle className="w-4 h-4" />
             Inquire on WhatsApp

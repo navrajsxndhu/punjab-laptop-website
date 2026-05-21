@@ -95,7 +95,11 @@ export const validateBlogPost = [
     .trim()
     .notEmpty().withMessage('Content is required'),
   body('excerpt').optional().trim(),
-  body('cover_image').optional().trim().isURL().withMessage('Cover image must be a valid URL'),
+  body('cover_image')
+    .optional({ values: 'falsy' })
+    .trim()
+    .custom((val) => !val || /^https?:\/\/.+/.test(val))
+    .withMessage('Cover image must be a valid URL'),
   body('author')
     .trim()
     .notEmpty().withMessage('Author is required'),
@@ -114,9 +118,9 @@ export const validateOffer = [
   body('description').optional().trim(),
   body('discount_type')
     .notEmpty().withMessage('Discount type is required')
-    .isIn(['percentage', 'fixed']).withMessage('Discount type must be "percentage" or "fixed"'),
+    .isIn(['percentage', 'flat', 'special']).withMessage('Discount type must be percentage, flat, or special'),
   body('discount_value')
-    .notEmpty().withMessage('Discount value is required')
+    .optional({ values: 'null' })
     .isFloat({ min: 0 }).withMessage('Discount value must be a positive number'),
   body('valid_from')
     .notEmpty().withMessage('Valid from date is required')

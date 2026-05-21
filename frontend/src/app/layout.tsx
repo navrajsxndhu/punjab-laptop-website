@@ -1,10 +1,12 @@
 import type { Metadata } from 'next';
 import { Inter, Outfit } from 'next/font/google';
 import './globals.css';
-import { Header } from '@/components/layout/Header';
-import { Footer } from '@/components/layout/Footer';
-import { WhatsAppFloat } from '@/components/common/WhatsAppFloat';
+import { AppShell } from '@/components/layout/AppShell';
+import { SkipLink } from '@/components/common/SkipLink';
+import { AnalyticsProvider } from '@/components/analytics/AnalyticsProvider';
+import { JsonLd } from '@/components/seo/JsonLd';
 import { BUSINESS, SEO } from '@/lib/constants';
+import { buildLocalBusinessSchema, buildFaqSchema, DEFAULT_OG_IMAGE, SITE_URL } from '@/lib/seo';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -19,7 +21,7 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://punjablaptopsirsa.com'),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: SEO.defaultTitle,
     template: SEO.titleTemplate,
@@ -43,7 +45,7 @@ export const metadata: Metadata = {
     type: 'website',
     images: [
       {
-        url: '/images/og-image.jpg',
+        url: DEFAULT_OG_IMAGE,
         width: 1200,
         height: 630,
         alt: BUSINESS.name,
@@ -76,47 +78,6 @@ export const metadata: Metadata = {
   },
 };
 
-// JSON-LD structured data
-const jsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'LocalBusiness',
-  '@id': process.env.NEXT_PUBLIC_SITE_URL || 'https://punjablaptopsirsa.com',
-  name: BUSINESS.name,
-  description: BUSINESS.description,
-  url: process.env.NEXT_PUBLIC_SITE_URL || 'https://punjablaptopsirsa.com',
-  telephone: `+${BUSINESS.whatsapp}`,
-  address: {
-    '@type': 'PostalAddress',
-    streetAddress: 'Shop No. 52, New M.C. Market',
-    addressLocality: BUSINESS.city,
-    addressRegion: BUSINESS.state,
-    postalCode: BUSINESS.pincode,
-    addressCountry: 'IN',
-  },
-  geo: {
-    '@type': 'GeoCoordinates',
-    latitude: 29.5341,
-    longitude: 75.0260,
-  },
-  openingHoursSpecification: [
-    {
-      '@type': 'OpeningHoursSpecification',
-      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
-      opens: '10:00',
-      closes: '20:00',
-    },
-    {
-      '@type': 'OpeningHoursSpecification',
-      dayOfWeek: 'Sunday',
-      opens: '11:00',
-      closes: '18:00',
-    },
-  ],
-  sameAs: [BUSINESS.instagram],
-  image: '/images/og-image.jpg',
-  priceRange: '₹₹',
-};
-
 export default function RootLayout({
   children,
 }: {
@@ -125,16 +86,12 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${outfit.variable}`}>
       <head>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
+        <JsonLd data={[buildLocalBusinessSchema(), buildFaqSchema()]} />
       </head>
       <body className="min-h-screen flex flex-col">
-        <Header />
-        <main className="flex-1">{children}</main>
-        <Footer />
-        <WhatsAppFloat />
+        <SkipLink />
+        <AnalyticsProvider />
+        <AppShell>{children}</AppShell>
       </body>
     </html>
   );
