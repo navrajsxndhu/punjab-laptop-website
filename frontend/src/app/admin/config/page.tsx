@@ -6,7 +6,7 @@ import { useToast } from '@/contexts/ToastContext';
 import { BUSINESS } from '@/lib/constants';
 
 export default function SystemConfigPage() {
-  const { showToast } = useToast();
+  const { success } = useToast();
   const [isSaving, setIsSaving] = useState(false);
 
   // Initializing state with existing constants as a baseline
@@ -33,7 +33,7 @@ export default function SystemConfigPage() {
     // Simulate API call to save settings
     await new Promise(resolve => setTimeout(resolve, 800));
     setIsSaving(false);
-    showToast('success', 'Settings Saved', 'System configurations have been updated successfully.');
+    success('System configurations have been updated successfully.');
   };
 
   return (

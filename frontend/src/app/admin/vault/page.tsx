@@ -6,7 +6,7 @@ import { useToast } from '@/contexts/ToastContext';
 import { Copy, Check, Eye, EyeOff } from 'lucide-react';
 
 export default function SecurityVaultPage() {
-  const { showToast } = useToast();
+  const { success, error } = useToast();
   const [copied, setCopied] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -22,7 +22,7 @@ export default function SecurityVaultPage() {
     navigator.clipboard.writeText('WEBCOM-RESET-2026');
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
-    showToast('success', 'Key Copied', 'System recovery key copied to clipboard.');
+    success('System recovery key copied to clipboard.');
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -34,7 +34,7 @@ export default function SecurityVaultPage() {
 
   const handleUpdate = async () => {
     if (!formData.currentPassword) {
-      showToast('error', 'Verification Required', 'Please enter your current password to update credentials.');
+      error('Please enter your current password to update credentials.');
       return;
     }
     
@@ -42,7 +42,7 @@ export default function SecurityVaultPage() {
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 800));
     setIsSaving(false);
-    showToast('success', 'Credentials Updated', 'Your access credentials have been updated. You will be logged out shortly.');
+    success('Your access credentials have been updated. You will be logged out shortly.');
     setFormData(prev => ({ ...prev, currentPassword: '' }));
   };
 
