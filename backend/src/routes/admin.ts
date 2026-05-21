@@ -56,7 +56,7 @@ router.get('/inquiries', async (_req: AuthRequest, res: Response): Promise<void>
       .order('created_at', { ascending: false });
 
     if (error) {
-      res.status(500).json({ success: false, error: 'Failed to fetch inquiries.' } as ApiResponse);
+      res.status(500).json({ success: false, error: error?.message || 'Failed to fetch inquiries.' } as ApiResponse);
       return;
     }
 
@@ -76,7 +76,7 @@ router.get('/inquiries/recent', async (_req: AuthRequest, res: Response): Promis
       .limit(8);
 
     if (error) {
-      res.status(500).json({ success: false, error: 'Failed to fetch inquiries.' } as ApiResponse);
+      res.status(500).json({ success: false, error: error?.message || 'Failed to fetch inquiries.' } as ApiResponse);
       return;
     }
 
@@ -123,5 +123,6 @@ router.patch('/inquiries/:id/read', async (req: AuthRequest, res: Response): Pro
 });
 
 export default router;
+
 
 

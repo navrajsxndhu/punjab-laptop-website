@@ -114,7 +114,7 @@ router.get('/', async (req: Request, res: Response): Promise<void> => {
 
     if (error) {
       console.error('Products fetch error:', error);
-      res.status(500).json({ success: false, error: 'Failed to fetch products.' } as ApiResponse);
+      res.status(500).json({ success: false, error: error?.message || 'Failed to fetch products.' } as ApiResponse);
       return;
     }
 
@@ -319,5 +319,6 @@ router.delete('/:id', authenticate, async (req: AuthRequest, res: Response): Pro
 });
 
 export default router;
+
 
 

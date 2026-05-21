@@ -34,7 +34,7 @@ router.get('/manage', authenticate, async (_req: AuthRequest, res: Response): Pr
       .order('created_at', { ascending: false });
 
     if (error) {
-      res.status(500).json({ success: false, error: 'Failed to fetch blog posts.' } as ApiResponse);
+      res.status(500).json({ success: false, error: error?.message || 'Failed to fetch blog posts.' } as ApiResponse);
       return;
     }
 
@@ -54,7 +54,7 @@ router.get('/', async (_req: Request, res: Response): Promise<void> => {
       .order('published_at', { ascending: false });
 
     if (error) {
-      res.status(500).json({ success: false, error: 'Failed to fetch blog posts.' } as ApiResponse);
+      res.status(500).json({ success: false, error: error?.message || 'Failed to fetch blog posts.' } as ApiResponse);
       return;
     }
 
@@ -164,5 +164,6 @@ router.delete('/:id', authenticate, async (req: AuthRequest, res: Response): Pro
 });
 
 export default router;
+
 
 

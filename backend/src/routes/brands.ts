@@ -17,7 +17,7 @@ router.get('/', async (_req: Request, res: Response): Promise<void> => {
 
     if (error) {
       console.error('Brands fetch error:', error);
-      res.status(500).json({ success: false, error: 'Failed to fetch brands.' } as ApiResponse);
+      res.status(500).json({ success: false, error: error?.message || 'Failed to fetch brands.' } as ApiResponse);
       return;
     }
 
@@ -29,5 +29,6 @@ router.get('/', async (_req: Request, res: Response): Promise<void> => {
 });
 
 export default router;
+
 
 
