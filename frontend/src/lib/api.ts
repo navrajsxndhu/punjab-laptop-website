@@ -1,0 +1,124 @@
+// ============================================================
+// API Client — Frontend → Backend communication
+// ============================================================
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+
+interface FetchOptions extends RequestInit {
+  params?: Record<string, string | number | boolean | undefined>;
+}
+
+class ApiClient {
+  private baseUrl: string;
+
+  constructor(baseUrl: string) {
+    this.baseUrl = baseUrl;
+  }
+
+  private buildUrl(path: string, params?: Record<string, string | number | boolean | undefined>): string {
+    const url = new URL(`${this.baseUrl}${path}`);
+    if (params) {
+      Object.entries(params).forEach(([key, value]) => {
+        if (value !== undefined && value !== '') {
+          url.searchParams.append(key, String(value));
+        }
+      });
+    }
+    return url.toString();
+  }
+
+  private getAuthHeaders(): Record<string, string> {
+    if (typeof window === 'undefined') return {};
+    const token = localStorage.getItem('admin_token');
+    return token ? { Authorization: `Bearer ${token}` } : {};
+  }
+
+  async get<T>(path: string, options?: FetchOptions): Promise<T> {
+    const url = this.buildUrl(path, options?.params);
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        ...this.getAuthHeaders(),
+        ...options?.headers,
+      },
+      next: options?.next,
+    });
+    if (!response.ok) {
+      const error = await response.json().catch(() => ({ message: 'Network error' }));
+      throw new Error(error.message || `HTTP ${response.status}`);
+    }
+    return response.json();
+  }
+
+  async post<T>(path: string, data?: unknown, options?: FetchOptions): Promise<T> {
+    const url = this.buildUrl(path, options?.params);
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...this.getAuthHeaders(),
+        ...options?.headers,
+      },
+      body: data ? JSON.stringify(data) : undefined,
+    });
+    if (!response.ok) {
+      const error = await response.json().catch(() => ({ message: 'Network error' }));
+      throw new Error(error.message || `HTTP ${response.status}`);
+    }
+    return response.json();
+  }
+
+  async put<T>(path: string, data?: unknown, options?: FetchOptions): Promise<T> {
+    const url = this.buildUrl(path, options?.params);
+    const response = await fetch(url, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        ...this.getAuthHeaders(),
+        ...options?.headers,
+      },
+      body: data ? JSON.stringify(data) : undefined,
+    });
+    if (!response.ok) {
+      const error = await response.json().catch(() => ({ message: 'Network error' }));
+      throw new Error(error.message || `HTTP ${response.status}`);
+    }
+    return response.json();
+  }
+
+  async delete<T>(path: string, options?: FetchOptions): Promise<T> {
+    const url = this.buildUrl(path, options?.params);
+    const response = await fetch(url, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        ...this.getAuthHeaders(),
+        ...options?.headers,
+      },
+    });
+    if (!response.ok) {
+      const error = await response.json().catch(() => ({ message: 'Network error' }));
+      throw new Error(error.message || `HTTP ${response.status}`);
+    }
+    return response.json();
+  }
+
+  async upload<T>(path: string, formData: FormData): Promise<T> {
+    const url = this.buildUrl(path);
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        ...this.getAuthHeaders(),
+      },
+      body: formData,
+    });
+    if (!response.ok) {
+      const error = await response.json().catch(() => ({ message: 'Upload failed' }));
+      throw new Error(error.message || `HTTP ${response.status}`);
+    }
+    return response.json();
+  }
+}
+
+export const api = new ApiClient(API_URL);

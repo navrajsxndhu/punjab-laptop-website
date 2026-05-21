@@ -1,0 +1,354 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   Punjab Laptop Sirsa — Global Styles
+   Apple-inspired premium design system
+   ============================================================ */
+
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800&display=swap');
+
+/* ============================================================
+   Base Layer — Reset & Defaults
+   ============================================================ */
+@layer base {
+  * {
+    @apply border-gray-200;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    @apply bg-background text-text-primary font-sans;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    @apply bg-accent/20 text-accent-900;
+  }
+
+  /* Premium scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-gray-300 rounded-full;
+    transition: background 0.2s;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-gray-400;
+  }
+
+  /* Focus styles */
+  :focus-visible {
+    @apply outline-none ring-2 ring-accent/40 ring-offset-2 ring-offset-white;
+  }
+}
+
+/* ============================================================
+   Component Layer — Reusable patterns
+   ============================================================ */
+@layer components {
+  /* Container */
+  .container-wide {
+    @apply max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .container-narrow {
+    @apply max-w-4xl mx-auto px-4 sm:px-6;
+  }
+
+  /* Glass morphism */
+  .glass {
+    @apply bg-white/70 backdrop-blur-xl border border-white/20;
+  }
+
+  .glass-dark {
+    @apply bg-primary/80 backdrop-blur-xl border border-white/10;
+  }
+
+  /* Premium card */
+  .card-premium {
+    @apply relative bg-white rounded-card shadow-soft 
+           transition-all duration-400 ease-apple
+           hover:shadow-card-hover hover:-translate-y-1;
+  }
+
+  .card-premium::before {
+    content: '';
+    @apply absolute inset-0 rounded-card opacity-0 transition-opacity duration-400;
+    background: linear-gradient(135deg, rgba(59,130,246,0.05), rgba(16,185,129,0.05));
+  }
+
+  .card-premium:hover::before {
+    @apply opacity-100;
+  }
+
+  /* Premium button */
+  .btn-primary {
+    @apply relative inline-flex items-center justify-center gap-2
+           px-6 py-3 rounded-button font-medium text-white
+           bg-accent hover:bg-accent-600
+           shadow-soft hover:shadow-glow-blue
+           transition-all duration-300 ease-apple
+           active:scale-[0.97] active:shadow-none;
+  }
+
+  .btn-whatsapp {
+    @apply relative inline-flex items-center justify-center gap-2
+           px-6 py-3 rounded-button font-medium text-white
+           bg-whatsapp hover:bg-whatsapp-dark
+           shadow-soft hover:shadow-glow-green
+           transition-all duration-300 ease-apple
+           active:scale-[0.97] active:shadow-none;
+  }
+
+  .btn-outline {
+    @apply relative inline-flex items-center justify-center gap-2
+           px-6 py-3 rounded-button font-medium
+           text-text-primary border-2 border-gray-200
+           hover:border-accent hover:text-accent
+           bg-transparent hover:bg-accent/5
+           transition-all duration-300 ease-apple
+           active:scale-[0.97];
+  }
+
+  .btn-ghost {
+    @apply relative inline-flex items-center justify-center gap-2
+           px-4 py-2 rounded-button font-medium
+           text-text-muted hover:text-text-primary
+           hover:bg-gray-100
+           transition-all duration-250 ease-apple
+           active:scale-[0.97];
+  }
+
+  /* Section spacing */
+  .section-padding {
+    @apply py-16 sm:py-20 lg:py-28;
+  }
+
+  .section-padding-sm {
+    @apply py-12 sm:py-16 lg:py-20;
+  }
+
+  /* Text gradient */
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-accent via-blue-600 to-accent-700;
+  }
+
+  .text-gradient-warm {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-deals via-orange-500 to-red-500;
+  }
+
+  /* Ambient glow */
+  .glow-blue {
+    @apply relative;
+  }
+
+  .glow-blue::after {
+    content: '';
+    @apply absolute -inset-1 rounded-card bg-accent/20 blur-xl -z-10 
+           opacity-0 transition-opacity duration-500;
+  }
+
+  .glow-blue:hover::after {
+    @apply opacity-100;
+  }
+
+  /* Badge */
+  .badge {
+    @apply inline-flex items-center px-3 py-1 rounded-pill 
+           text-caption font-medium tracking-wide;
+  }
+
+  .badge-accent {
+    @apply badge bg-accent/10 text-accent;
+  }
+
+  .badge-green {
+    @apply badge bg-whatsapp/10 text-whatsapp-dark;
+  }
+
+  .badge-amber {
+    @apply badge bg-deals/10 text-deals-dark;
+  }
+
+  .badge-red {
+    @apply badge bg-red-50 text-red-600;
+  }
+
+  /* Input field */
+  .input-field {
+    @apply w-full px-4 py-3 rounded-input bg-white
+           border border-gray-200 text-text-primary
+           placeholder:text-text-muted/60
+           transition-all duration-250 ease-apple
+           hover:border-gray-300
+           focus:border-accent focus:ring-2 focus:ring-accent/10 focus:outline-none;
+  }
+
+  /* Shimmer loading */
+  .shimmer {
+    @apply relative overflow-hidden bg-gray-100 rounded-card;
+  }
+
+  .shimmer::after {
+    content: '';
+    @apply absolute inset-0;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.6),
+      transparent
+    );
+    background-size: 200% 100%;
+    animation: shimmer 2s linear infinite;
+  }
+
+  /* Divider */
+  .divider-gradient {
+    @apply h-px w-full;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(203, 213, 225, 0.5),
+      transparent
+    );
+  }
+}
+
+/* ============================================================
+   Utility Layer — One-off helpers
+   ============================================================ */
+@layer utilities {
+  /* Hide scrollbar but keep scroll functionality */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  /* Animated gradient background */
+  .animated-gradient {
+    background-size: 200% 200%;
+    animation: gradient-shift 8s ease infinite;
+  }
+
+  @keyframes gradient-shift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  /* Text balance */
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Mask fade edges */
+  .mask-fade-x {
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 8%,
+      black 92%,
+      transparent
+    );
+  }
+
+  .mask-fade-b {
+    mask-image: linear-gradient(
+      to bottom,
+      black,
+      black 70%,
+      transparent
+    );
+  }
+}
+
+/* ============================================================
+   Framer Motion — page transition wrapper
+   ============================================================ */
+.page-transition-enter {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.page-transition-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.5s cubic-bezier(0.25, 0.1, 0.25, 1),
+              transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+/* ============================================================
+   Custom properties for dynamic theming
+   ============================================================ */
+:root {
+  --nav-height: 72px;
+  --nav-height-scrolled: 64px;
+  --section-gap: 120px;
+  --hero-height: calc(100vh - var(--nav-height));
+}
+
+@media (max-width: 768px) {
+  :root {
+    --nav-height: 64px;
+    --section-gap: 80px;
+  }
+}
+
+/* ============================================================
+   Blog article typography
+   ============================================================ */
+.article-prose {
+  @apply text-text-primary;
+}
+
+.article-prose h2 {
+  @apply font-display text-heading-lg text-text-primary mt-12 mb-4 first:mt-0;
+}
+
+.article-prose h3 {
+  @apply font-display text-heading-md text-text-primary mt-8 mb-3;
+}
+
+.article-prose p {
+  @apply text-body-lg text-text-muted leading-relaxed mb-6;
+}
+
+.article-prose strong {
+  @apply font-semibold text-text-primary;
+}
+
+.article-prose ul,
+.article-prose ol {
+  @apply text-body-lg text-text-muted mb-6 pl-6 space-y-2;
+}
+
+.article-prose li {
+  @apply leading-relaxed;
+}
+
+.article-prose ul li {
+  @apply list-disc;
+}
+
+.article-prose a {
+  @apply text-accent hover:underline;
+}
