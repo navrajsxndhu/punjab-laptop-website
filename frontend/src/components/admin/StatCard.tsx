@@ -17,7 +17,7 @@ const accents = {
   blue: 'bg-accent/10 text-accent',
   green: 'bg-whatsapp/10 text-whatsapp',
   amber: 'bg-deals/10 text-deals-dark',
-  violet: 'bg-violet-100 text-violet-600',
+  violet: 'bg-violet-500/10 text-violet-400',
 };
 
 export function StatCard({ label, value, icon: Icon, trend, index = 0, accent = 'blue' }: StatCardProps) {
@@ -26,7 +26,7 @@ export function StatCard({ label, value, icon: Icon, trend, index = 0, accent = 
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.06, duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
-      className="relative p-6 rounded-[20px] bg-white shadow-soft border border-gray-100/80 hover:shadow-card-hover transition-shadow duration-400"
+      className="relative p-6 rounded-[20px] bg-surface/50 backdrop-blur-md shadow-soft border border-white/10 hover:shadow-card-hover transition-shadow duration-400"
     >
       <div className="flex items-start justify-between gap-4">
         <div>

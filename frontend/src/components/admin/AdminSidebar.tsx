@@ -62,15 +62,15 @@ export function AdminSidebar({ open, onClose }: AdminSidebarProps) {
           return (
             <Link key={item.href} href={item.href} onClick={onClose}>
               <motion.span
-                className={cn(
-                  'flex items-center gap-3 px-3 py-2.5 rounded-xl text-[14px] font-medium transition-colors',
-                  active
-                    ? 'bg-white/10 text-white'
-                    : 'text-white/60 hover:text-white hover:bg-white/5'
-                )}
-                whileTap={{ scale: 0.98 }}
-              >
-                <item.icon className={cn('w-[18px] h-[18px]', active && 'text-accent-300')} />
+                  className={cn(
+                    'flex items-center gap-3 px-3 py-2.5 rounded-xl text-[14px] font-medium transition-colors',
+                    active
+                      ? 'bg-accent/10 text-accent'
+                      : 'text-white/60 hover:text-white hover:bg-white/5'
+                  )}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  <item.icon className={cn('w-[18px] h-[18px]', active && 'text-accent')} />
                 {item.label}
               </motion.span>
             </Link>
@@ -92,7 +92,7 @@ export function AdminSidebar({ open, onClose }: AdminSidebarProps) {
 
   return (
     <>
-      <aside className="hidden lg:flex w-64 shrink-0 flex-col bg-primary border-r border-white/10 fixed left-0 top-0 bottom-0 z-40">
+      <aside className="hidden lg:flex w-64 shrink-0 flex-col bg-background border-r border-white/10 fixed left-0 top-0 bottom-0 z-40">
         {content}
       </aside>
 
@@ -110,7 +110,7 @@ export function AdminSidebar({ open, onClose }: AdminSidebarProps) {
             animate={{ x: 0 }}
             exit={{ x: -280 }}
             transition={{ type: 'spring', damping: 28, stiffness: 320 }}
-            className="lg:hidden fixed left-0 top-0 bottom-0 w-[280px] bg-primary z-50 shadow-2xl"
+            className="lg:hidden fixed left-0 top-0 bottom-0 w-[280px] bg-background border-r border-white/10 z-50 shadow-2xl"
           >
             <button
               type="button"

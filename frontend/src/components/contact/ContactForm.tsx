@@ -28,12 +28,10 @@ export function ContactForm() {
     const next: FormErrors = {};
     if (!name.trim() || name.trim().length < 2) next.name = 'Name must be at least 2 characters';
     if (!email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) next.email = 'Enter a valid email';
-    if (phone.trim() && !/^[+]?[\d\s-]{10,15}$/.test(phone.replace(/\s/g, ''))) {
+    if (!phone.trim() || !/^[+]?[\d\s-]{10,15}$/.test(phone.replace(/\s/g, ''))) {
       next.phone = 'Enter a valid phone number';
     }
-    if (!message.trim() || message.trim().length < 10) {
-      next.message = 'Message must be at least 10 characters';
-    }
+    // Message is now optional
     setErrors(next);
     return Object.keys(next).length === 0;
   };
@@ -123,7 +121,7 @@ export function ContactForm() {
               disabled={loading}
             />
           </Field>
-          <Field label="Phone (optional)" error={errors.phone}>
+          <Field label="Phone" error={errors.phone}>
             <input
               id="phone"
               type="tel"
@@ -136,7 +134,7 @@ export function ContactForm() {
           </Field>
         </div>
 
-        <Field label="Message" error={errors.message}>
+        <Field label="Message (optional)" error={errors.message}>
           <textarea
             id="message"
             rows={5}

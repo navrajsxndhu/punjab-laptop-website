@@ -15,13 +15,13 @@ export function AdminHeader({ title, subtitle, onMenuClick, actions }: AdminHead
   const { user, logout } = useAdminAuth();
 
   return (
-    <header className="sticky top-0 z-30 glass border-b border-gray-100/80 backdrop-blur-xl">
+    <header className="sticky top-0 z-30 bg-surface/80 border-b border-white/10 backdrop-blur-xl">
       <div className="flex items-center justify-between gap-4 px-4 lg:px-8 h-16">
         <div className="flex items-center gap-3 min-w-0">
           <button
             type="button"
             onClick={onMenuClick}
-            className="lg:hidden p-2 rounded-xl hover:bg-gray-100 transition-colors"
+            className="lg:hidden p-2 rounded-xl hover:bg-white/10 transition-colors"
           >
             <Menu className="w-5 h-5" />
           </button>
@@ -33,14 +33,14 @@ export function AdminHeader({ title, subtitle, onMenuClick, actions }: AdminHead
 
         <div className="flex items-center gap-2 shrink-0">
           {actions}
-          <span className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-pill bg-gray-50 text-caption text-text-muted">
+          <span className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-pill bg-white/5 border border-white/10 text-caption text-text-muted">
             <Bell className="w-3.5 h-3.5" />
             {user?.name || user?.email}
           </span>
           <motion.button
             type="button"
             onClick={logout}
-            className="p-2.5 rounded-xl text-text-muted hover:text-red-600 hover:bg-red-50 transition-colors"
+            className="p-2.5 rounded-xl text-text-muted hover:text-red-400 hover:bg-red-400/10 transition-colors"
             whileTap={{ scale: 0.95 }}
             title="Logout"
           >

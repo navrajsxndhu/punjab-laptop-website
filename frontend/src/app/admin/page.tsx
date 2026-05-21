@@ -96,13 +96,13 @@ export default function AdminDashboardPage() {
 
           <div className="grid lg:grid-cols-3 gap-6 lg:gap-8">
             <div className="lg:col-span-2 space-y-6">
-              <div className="rounded-[20px] bg-white shadow-soft border border-gray-100/80 p-6">
+              <div className="rounded-[20px] bg-surface/50 backdrop-blur-md shadow-soft border border-white/10 p-6">
                 <h2 className="font-display font-semibold text-heading-sm mb-4">Quick Actions</h2>
                 <div className="grid sm:grid-cols-2 gap-3">
                   {quickActions.map((a, i) => (
                     <Link key={a.href} href={a.href}>
                       <motion.div
-                        className="flex items-center gap-3 p-4 rounded-xl bg-gray-50 hover:bg-accent/5 border border-transparent hover:border-accent/20 transition-all"
+                        className="flex items-center gap-3 p-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 hover:border-accent/50 transition-all"
                         whileHover={{ x: 2 }}
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -117,7 +117,7 @@ export default function AdminDashboardPage() {
                 </div>
               </div>
 
-              <div className="rounded-[20px] bg-white shadow-soft border border-gray-100/80 p-6">
+              <div className="rounded-[20px] bg-surface/50 backdrop-blur-md shadow-soft border border-white/10 p-6">
                 <div className="flex items-center justify-between mb-4">
                   <h2 className="font-display font-semibold text-heading-sm">Inventory</h2>
                   <Link href="/admin/products" className="text-caption text-accent font-medium">
@@ -148,7 +148,7 @@ export default function AdminDashboardPage() {
               </div>
             </div>
 
-            <div className="rounded-[20px] bg-white shadow-soft border border-gray-100/80 p-6">
+            <div className="rounded-[20px] bg-surface/50 backdrop-blur-md shadow-soft border border-white/10 p-6">
               <div className="flex items-center justify-between mb-4">
                 <h2 className="font-display font-semibold text-heading-sm">Recent Inquiries</h2>
                 <Link href="/admin/inquiries" className="text-caption text-accent font-medium">
@@ -162,7 +162,7 @@ export default function AdminDashboardPage() {
                   {inquiries.map((inq) => (
                     <li
                       key={inq.id}
-                      className={`p-3 rounded-xl border ${inq.read ? 'border-gray-100 bg-gray-50/50' : 'border-accent/20 bg-accent/5'}`}
+                      className={`p-3 rounded-xl border ${inq.read ? 'border-white/10 bg-white/5' : 'border-accent/50 bg-accent/10'}`}
                     >
                       <div className="flex justify-between gap-2">
                         <span className="font-medium text-body-sm text-text-primary">{inq.name}</span>

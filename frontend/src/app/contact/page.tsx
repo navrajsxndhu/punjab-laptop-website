@@ -24,7 +24,7 @@ export default function ContactPage() {
           <div className="grid lg:grid-cols-5 gap-10 lg:gap-14">
             {/* Form */}
             <div className="lg:col-span-3">
-              <div className="glass rounded-card shadow-soft p-6 lg:p-10 border border-white/50">
+              <div className="card-premium p-6 lg:p-10 border border-white/10">
                 <h2 className="font-display text-heading-lg text-text-primary mb-2">Send a Message</h2>
                 <p className="text-body-md text-text-muted mb-8">
                   We typically respond within a few hours during business hours.
@@ -106,8 +106,8 @@ function ContactInfoCard({
 }) {
   return (
     <div
-      className={`rounded-card p-6 shadow-soft transition-all duration-300 ${
-        highlight ? 'bg-gradient-to-br from-whatsapp/5 to-emerald-50 border border-whatsapp/20' : 'bg-white border border-gray-100'
+      className={`card-premium p-6 transition-all duration-300 ${
+        highlight ? 'bg-gradient-to-br from-whatsapp/10 to-transparent border border-whatsapp/20' : 'border border-white/10'
       }`}
     >
       <div className="flex items-center gap-3 mb-3">
