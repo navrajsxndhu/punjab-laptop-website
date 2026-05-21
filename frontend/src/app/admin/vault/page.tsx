@@ -3,10 +3,13 @@
 import { useState } from 'react';
 import { AdminPage } from '@/components/admin/AdminPage';
 import { useToast } from '@/contexts/ToastContext';
+import { adminApi } from '@/lib/admin-api';
+import { useAdminAuth } from '@/contexts/AdminAuthContext';
 import { Copy, Check, Eye, EyeOff } from 'lucide-react';
 
 export default function SecurityVaultPage() {
   const { success, error } = useToast();
+  const { logout } = useAdminAuth();
   const [copied, setCopied] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -39,11 +42,20 @@ export default function SecurityVaultPage() {
     }
     
     setIsSaving(true);
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 800));
-    setIsSaving(false);
-    success('Your access credentials have been updated. You will be logged out shortly.');
-    setFormData(prev => ({ ...prev, currentPassword: '' }));
+    try {
+      await adminApi.updateCredentials({
+        username: formData.username,
+        password: formData.password === '*************' ? undefined : formData.password,
+        currentPassword: formData.currentPassword
+      });
+      success('Your access credentials have been updated. You will be logged out shortly.');
+      setFormData(prev => ({ ...prev, currentPassword: '' }));
+      setTimeout(() => logout(), 1500);
+    } catch (e) {
+      error(e instanceof Error ? e.message : 'Failed to update credentials');
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   return (

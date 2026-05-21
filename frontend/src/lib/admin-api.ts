@@ -23,6 +23,9 @@ export const adminApi = {
 
   refreshToken: () => api.post<ApiRes<{ token: string }>>('/api/auth/refresh'),
 
+  updateCredentials: (data: Record<string, unknown>) => 
+    api.put<ApiRes<null>>('/api/auth/credentials', data),
+
   getStats: () => api.get<ApiRes<AdminStats>>('/api/admin/stats'),
 
   getRecentInquiries: () => api.get<ApiRes<ContactInquiry[]>>('/api/admin/inquiries/recent'),

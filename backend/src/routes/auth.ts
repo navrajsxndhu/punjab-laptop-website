@@ -141,6 +141,74 @@ router.post('/refresh', authenticate, async (req: AuthRequest, res: Response): P
   }
 });
 
+/**
+ * PUT /api/auth/credentials
+ * Update admin email/username and password
+ */
+router.put('/credentials', authenticate, async (req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    if (!req.admin) {
+      res.status(401).json({ success: false, error: 'Unauthorized.' } as ApiResponse);
+      return;
+    }
+
+    const { username, password, currentPassword } = req.body;
+
+    if (!currentPassword) {
+      res.status(400).json({ success: false, error: 'Current password is required.' } as ApiResponse);
+      return;
+    }
+
+    // Verify current password
+    const { data: user, error: fetchError } = await supabase
+      .from('admin_users')
+      .select('*')
+      .eq('id', req.admin.id)
+      .single();
+
+    if (fetchError || !user) {
+      res.status(401).json({ success: false, error: 'User not found.' } as ApiResponse);
+      return;
+    }
+
+    const isMatch = await bcrypt.compare(currentPassword, user.password_hash);
+    if (!isMatch) {
+      res.status(401).json({ success: false, error: 'Invalid current password.' } as ApiResponse);
+      return;
+    }
+
+    const updates: any = {};
+    if (username) {
+      updates.email = username;
+      updates.name = username;
+    }
+    
+    if (password) {
+      const salt = await bcrypt.genSalt(10);
+      updates.password_hash = await bcrypt.hash(password, salt);
+    }
+
+    if (Object.keys(updates).length > 0) {
+      const { error: updateError } = await supabase
+        .from('admin_users')
+        .update(updates)
+        .eq('id', req.admin.id);
+
+      if (updateError) {
+        throw new Error(updateError.message);
+      }
+    }
+
+    res.json({
+      success: true,
+      message: 'Credentials updated successfully.',
+    } as ApiResponse);
+  } catch (err) {
+    console.error('Update credentials error:', err);
+    res.status(500).json({ success: false, error: err instanceof Error ? err.message : 'Internal server error.' } as ApiResponse);
+  }
+});
+
 export default router;
 
 
