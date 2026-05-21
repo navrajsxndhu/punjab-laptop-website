@@ -132,7 +132,7 @@ router.get('/', async (req: Request, res: Response): Promise<void> => {
     } as ApiResponse);
   } catch (err) {
     console.error('Products error:', err);
-    res.status(500).json({ success: false, error: 'Internal server error.' } as ApiResponse);
+    res.status(500).json({ success: false, error: err instanceof Error ? err.message : ((err as any)?.message || 'Internal server error.') } as ApiResponse);
   }
 });
 
@@ -156,7 +156,7 @@ router.get('/by-id/:id', authenticate, async (req: AuthRequest, res: Response): 
     res.json({ success: true, data } as ApiResponse);
   } catch (err) {
     console.error('Product by-id error:', err);
-    res.status(500).json({ success: false, error: 'Internal server error.' } as ApiResponse);
+    res.status(500).json({ success: false, error: err instanceof Error ? err.message : ((err as any)?.message || 'Internal server error.') } as ApiResponse);
   }
 });
 
@@ -182,7 +182,7 @@ router.get('/:slug', async (req: Request, res: Response): Promise<void> => {
     res.json({ success: true, data } as ApiResponse);
   } catch (err) {
     console.error('Product detail error:', err);
-    res.status(500).json({ success: false, error: 'Internal server error.' } as ApiResponse);
+    res.status(500).json({ success: false, error: err instanceof Error ? err.message : ((err as any)?.message || 'Internal server error.') } as ApiResponse);
   }
 });
 
@@ -233,7 +233,7 @@ router.post('/', authenticate, validateProduct, async (req: AuthRequest, res: Re
     } as ApiResponse);
   } catch (err) {
     console.error('Product create error:', err);
-    res.status(500).json({ success: false, error: 'Internal server error.' } as ApiResponse);
+    res.status(500).json({ success: false, error: err instanceof Error ? err.message : ((err as any)?.message || 'Internal server error.') } as ApiResponse);
   }
 });
 
@@ -285,7 +285,7 @@ router.put('/:id', authenticate, async (req: AuthRequest, res: Response): Promis
     } as ApiResponse);
   } catch (err) {
     console.error('Product update error:', err);
-    res.status(500).json({ success: false, error: 'Internal server error.' } as ApiResponse);
+    res.status(500).json({ success: false, error: err instanceof Error ? err.message : ((err as any)?.message || 'Internal server error.') } as ApiResponse);
   }
 });
 
@@ -314,8 +314,10 @@ router.delete('/:id', authenticate, async (req: AuthRequest, res: Response): Pro
     } as ApiResponse);
   } catch (err) {
     console.error('Product delete error:', err);
-    res.status(500).json({ success: false, error: 'Internal server error.' } as ApiResponse);
+    res.status(500).json({ success: false, error: err instanceof Error ? err.message : ((err as any)?.message || 'Internal server error.') } as ApiResponse);
   }
 });
 
 export default router;
+
+

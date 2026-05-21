@@ -68,7 +68,7 @@ router.post('/login', authLimiter, validateLogin, async (req: Request, res: Resp
     console.error('Login error:', err);
     res.status(500).json({
       success: false,
-      error: 'Internal server error.',
+      error: err instanceof Error ? err.message : ((err as any)?.message || 'Internal server error.'),
     } as ApiResponse);
   }
 });
@@ -108,7 +108,7 @@ router.post('/verify', authenticate, async (req: AuthRequest, res: Response): Pr
     console.error('Verify error:', err);
     res.status(500).json({
       success: false,
-      error: 'Internal server error.',
+      error: err instanceof Error ? err.message : ((err as any)?.message || 'Internal server error.'),
     } as ApiResponse);
   }
 });
@@ -137,8 +137,10 @@ router.post('/refresh', authenticate, async (req: AuthRequest, res: Response): P
     } as ApiResponse);
   } catch (err) {
     console.error('Refresh error:', err);
-    res.status(500).json({ success: false, error: 'Internal server error.' } as ApiResponse);
+    res.status(500).json({ success: false, error: err instanceof Error ? err.message : ((err as any)?.message || 'Internal server error.') } as ApiResponse);
   }
 });
 
 export default router;
+
+

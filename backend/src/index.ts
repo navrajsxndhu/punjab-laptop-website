@@ -65,7 +65,7 @@ app.use((_req, res) => {
 
 app.use((err: Error, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
   console.error('Unhandled error:', err);
-  res.status(500).json({ success: false, error: 'Internal server error.' });
+  res.status(500).json({ success: false, error: err instanceof Error ? err.message : ((err as any)?.message || 'Internal server error.') });
 });
 
 app.listen(PORT, () => {
@@ -73,3 +73,5 @@ app.listen(PORT, () => {
 });
 
 export default app;
+
+

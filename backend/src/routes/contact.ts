@@ -31,8 +31,10 @@ router.post('/', contactLimiter, validateContact, async (req: Request, res: Resp
     } as ApiResponse);
   } catch (err) {
     console.error('Contact error:', err);
-    res.status(500).json({ success: false, error: 'Internal server error.' } as ApiResponse);
+    res.status(500).json({ success: false, error: err instanceof Error ? err.message : ((err as any)?.message || 'Internal server error.') } as ApiResponse);
   }
 });
 
 export default router;
+
+

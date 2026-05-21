@@ -20,7 +20,7 @@ router.get('/', async (_req: Request, res: Response): Promise<void> => {
     res.json({ success: true, data } as ApiResponse);
   } catch (err) {
     console.error('Testimonials error:', err);
-    res.status(500).json({ success: false, error: 'Internal server error.' } as ApiResponse);
+    res.status(500).json({ success: false, error: err instanceof Error ? err.message : ((err as any)?.message || 'Internal server error.') } as ApiResponse);
   }
 });
 
@@ -47,7 +47,7 @@ router.post('/', authenticate, async (req: AuthRequest, res: Response): Promise<
     res.status(201).json({ success: true, data, message: 'Testimonial created.' } as ApiResponse);
   } catch (err) {
     console.error('Testimonial create error:', err);
-    res.status(500).json({ success: false, error: 'Internal server error.' } as ApiResponse);
+    res.status(500).json({ success: false, error: err instanceof Error ? err.message : ((err as any)?.message || 'Internal server error.') } as ApiResponse);
   }
 });
 
@@ -77,7 +77,7 @@ router.put('/:id', authenticate, async (req: AuthRequest, res: Response): Promis
     res.json({ success: true, data, message: 'Testimonial updated.' } as ApiResponse);
   } catch (err) {
     console.error('Testimonial update error:', err);
-    res.status(500).json({ success: false, error: 'Internal server error.' } as ApiResponse);
+    res.status(500).json({ success: false, error: err instanceof Error ? err.message : ((err as any)?.message || 'Internal server error.') } as ApiResponse);
   }
 });
 
@@ -91,8 +91,10 @@ router.delete('/:id', authenticate, async (req: AuthRequest, res: Response): Pro
     res.json({ success: true, message: 'Testimonial deleted.' } as ApiResponse);
   } catch (err) {
     console.error('Testimonial delete error:', err);
-    res.status(500).json({ success: false, error: 'Internal server error.' } as ApiResponse);
+    res.status(500).json({ success: false, error: err instanceof Error ? err.message : ((err as any)?.message || 'Internal server error.') } as ApiResponse);
   }
 });
 
 export default router;
+
+

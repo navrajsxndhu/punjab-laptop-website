@@ -20,7 +20,7 @@ router.get('/manage', authenticate, async (_req: AuthRequest, res: Response): Pr
     res.json({ success: true, data } as ApiResponse);
   } catch (err) {
     console.error('Banners manage error:', err);
-    res.status(500).json({ success: false, error: 'Internal server error.' } as ApiResponse);
+    res.status(500).json({ success: false, error: err instanceof Error ? err.message : ((err as any)?.message || 'Internal server error.') } as ApiResponse);
   }
 });
 
@@ -40,7 +40,7 @@ router.get('/', async (_req: Request, res: Response): Promise<void> => {
     res.json({ success: true, data } as ApiResponse);
   } catch (err) {
     console.error('Banners error:', err);
-    res.status(500).json({ success: false, error: 'Internal server error.' } as ApiResponse);
+    res.status(500).json({ success: false, error: err instanceof Error ? err.message : ((err as any)?.message || 'Internal server error.') } as ApiResponse);
   }
 });
 
@@ -67,7 +67,7 @@ router.post('/', authenticate, async (req: AuthRequest, res: Response): Promise<
     res.status(201).json({ success: true, data, message: 'Banner created.' } as ApiResponse);
   } catch (err) {
     console.error('Banner create error:', err);
-    res.status(500).json({ success: false, error: 'Internal server error.' } as ApiResponse);
+    res.status(500).json({ success: false, error: err instanceof Error ? err.message : ((err as any)?.message || 'Internal server error.') } as ApiResponse);
   }
 });
 
@@ -97,7 +97,7 @@ router.put('/:id', authenticate, async (req: AuthRequest, res: Response): Promis
     res.json({ success: true, data, message: 'Banner updated.' } as ApiResponse);
   } catch (err) {
     console.error('Banner update error:', err);
-    res.status(500).json({ success: false, error: 'Internal server error.' } as ApiResponse);
+    res.status(500).json({ success: false, error: err instanceof Error ? err.message : ((err as any)?.message || 'Internal server error.') } as ApiResponse);
   }
 });
 
@@ -111,8 +111,10 @@ router.delete('/:id', authenticate, async (req: AuthRequest, res: Response): Pro
     res.json({ success: true, message: 'Banner deleted.' } as ApiResponse);
   } catch (err) {
     console.error('Banner delete error:', err);
-    res.status(500).json({ success: false, error: 'Internal server error.' } as ApiResponse);
+    res.status(500).json({ success: false, error: err instanceof Error ? err.message : ((err as any)?.message || 'Internal server error.') } as ApiResponse);
   }
 });
 
 export default router;
+
+

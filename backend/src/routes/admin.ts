@@ -44,7 +44,7 @@ router.get('/stats', async (_req: AuthRequest, res: Response): Promise<void> => 
     } as ApiResponse);
   } catch (err) {
     console.error('Admin stats error:', err);
-    res.status(500).json({ success: false, error: 'Internal server error.' } as ApiResponse);
+    res.status(500).json({ success: false, error: err instanceof Error ? err.message : ((err as any)?.message || 'Internal server error.') } as ApiResponse);
   }
 });
 
@@ -63,7 +63,7 @@ router.get('/inquiries', async (_req: AuthRequest, res: Response): Promise<void>
     res.json({ success: true, data } as ApiResponse);
   } catch (err) {
     console.error('Inquiries error:', err);
-    res.status(500).json({ success: false, error: 'Internal server error.' } as ApiResponse);
+    res.status(500).json({ success: false, error: err instanceof Error ? err.message : ((err as any)?.message || 'Internal server error.') } as ApiResponse);
   }
 });
 
@@ -83,7 +83,7 @@ router.get('/inquiries/recent', async (_req: AuthRequest, res: Response): Promis
     res.json({ success: true, data } as ApiResponse);
   } catch (err) {
     console.error('Recent inquiries error:', err);
-    res.status(500).json({ success: false, error: 'Internal server error.' } as ApiResponse);
+    res.status(500).json({ success: false, error: err instanceof Error ? err.message : ((err as any)?.message || 'Internal server error.') } as ApiResponse);
   }
 });
 
@@ -97,7 +97,7 @@ router.delete('/inquiries/:id', async (req: AuthRequest, res: Response): Promise
     res.json({ success: true, message: 'Inquiry deleted.' } as ApiResponse);
   } catch (err) {
     console.error('Inquiry delete error:', err);
-    res.status(500).json({ success: false, error: 'Internal server error.' } as ApiResponse);
+    res.status(500).json({ success: false, error: err instanceof Error ? err.message : ((err as any)?.message || 'Internal server error.') } as ApiResponse);
   }
 });
 
@@ -118,8 +118,10 @@ router.patch('/inquiries/:id/read', async (req: AuthRequest, res: Response): Pro
     res.json({ success: true, data, message: 'Marked as read.' } as ApiResponse);
   } catch (err) {
     console.error('Inquiry update error:', err);
-    res.status(500).json({ success: false, error: 'Internal server error.' } as ApiResponse);
+    res.status(500).json({ success: false, error: err instanceof Error ? err.message : ((err as any)?.message || 'Internal server error.') } as ApiResponse);
   }
 });
 
 export default router;
+
+

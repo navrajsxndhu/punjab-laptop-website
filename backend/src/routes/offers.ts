@@ -25,7 +25,7 @@ router.get('/manage', authenticate, async (_req: AuthRequest, res: Response): Pr
     res.json({ success: true, data } as ApiResponse);
   } catch (err) {
     console.error('Offers manage error:', err);
-    res.status(500).json({ success: false, error: 'Internal server error.' } as ApiResponse);
+    res.status(500).json({ success: false, error: err instanceof Error ? err.message : ((err as any)?.message || 'Internal server error.') } as ApiResponse);
   }
 });
 
@@ -50,7 +50,7 @@ router.get('/', async (_req: Request, res: Response): Promise<void> => {
     res.json({ success: true, data } as ApiResponse);
   } catch (err) {
     console.error('Offers error:', err);
-    res.status(500).json({ success: false, error: 'Internal server error.' } as ApiResponse);
+    res.status(500).json({ success: false, error: err instanceof Error ? err.message : ((err as any)?.message || 'Internal server error.') } as ApiResponse);
   }
 });
 
@@ -94,7 +94,7 @@ router.post('/', authenticate, validateOffer, async (req: AuthRequest, res: Resp
     } as ApiResponse);
   } catch (err) {
     console.error('Offer create error:', err);
-    res.status(500).json({ success: false, error: 'Internal server error.' } as ApiResponse);
+    res.status(500).json({ success: false, error: err instanceof Error ? err.message : ((err as any)?.message || 'Internal server error.') } as ApiResponse);
   }
 });
 
@@ -143,7 +143,7 @@ router.put('/:id', authenticate, async (req: AuthRequest, res: Response): Promis
     } as ApiResponse);
   } catch (err) {
     console.error('Offer update error:', err);
-    res.status(500).json({ success: false, error: 'Internal server error.' } as ApiResponse);
+    res.status(500).json({ success: false, error: err instanceof Error ? err.message : ((err as any)?.message || 'Internal server error.') } as ApiResponse);
   }
 });
 
@@ -172,8 +172,10 @@ router.delete('/:id', authenticate, async (req: AuthRequest, res: Response): Pro
     } as ApiResponse);
   } catch (err) {
     console.error('Offer delete error:', err);
-    res.status(500).json({ success: false, error: 'Internal server error.' } as ApiResponse);
+    res.status(500).json({ success: false, error: err instanceof Error ? err.message : ((err as any)?.message || 'Internal server error.') } as ApiResponse);
   }
 });
 
 export default router;
+
+

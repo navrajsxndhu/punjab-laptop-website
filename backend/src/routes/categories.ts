@@ -24,8 +24,10 @@ router.get('/', async (_req: Request, res: Response): Promise<void> => {
     res.json({ success: true, data } as ApiResponse);
   } catch (err) {
     console.error('Categories error:', err);
-    res.status(500).json({ success: false, error: 'Internal server error.' } as ApiResponse);
+    res.status(500).json({ success: false, error: err instanceof Error ? err.message : ((err as any)?.message || 'Internal server error.') } as ApiResponse);
   }
 });
 
 export default router;
+
+

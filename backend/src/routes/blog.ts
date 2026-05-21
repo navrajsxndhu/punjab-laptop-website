@@ -22,7 +22,7 @@ router.get('/manage/post/:id', authenticate, async (req: AuthRequest, res: Respo
     res.json({ success: true, data } as ApiResponse);
   } catch (err) {
     console.error('Blog post fetch error:', err);
-    res.status(500).json({ success: false, error: 'Internal server error.' } as ApiResponse);
+    res.status(500).json({ success: false, error: err instanceof Error ? err.message : ((err as any)?.message || 'Internal server error.') } as ApiResponse);
   }
 });
 
@@ -41,7 +41,7 @@ router.get('/manage', authenticate, async (_req: AuthRequest, res: Response): Pr
     res.json({ success: true, data } as ApiResponse);
   } catch (err) {
     console.error('Blog manage error:', err);
-    res.status(500).json({ success: false, error: 'Internal server error.' } as ApiResponse);
+    res.status(500).json({ success: false, error: err instanceof Error ? err.message : ((err as any)?.message || 'Internal server error.') } as ApiResponse);
   }
 });
 
@@ -61,7 +61,7 @@ router.get('/', async (_req: Request, res: Response): Promise<void> => {
     res.json({ success: true, data } as ApiResponse);
   } catch (err) {
     console.error('Blog list error:', err);
-    res.status(500).json({ success: false, error: 'Internal server error.' } as ApiResponse);
+    res.status(500).json({ success: false, error: err instanceof Error ? err.message : ((err as any)?.message || 'Internal server error.') } as ApiResponse);
   }
 });
 
@@ -82,7 +82,7 @@ router.get('/:slug', async (req: Request, res: Response): Promise<void> => {
     res.json({ success: true, data } as ApiResponse);
   } catch (err) {
     console.error('Blog detail error:', err);
-    res.status(500).json({ success: false, error: 'Internal server error.' } as ApiResponse);
+    res.status(500).json({ success: false, error: err instanceof Error ? err.message : ((err as any)?.message || 'Internal server error.') } as ApiResponse);
   }
 });
 
@@ -112,7 +112,7 @@ router.post('/', authenticate, validateBlogPost, async (req: AuthRequest, res: R
     res.status(201).json({ success: true, data, message: 'Blog post created.' } as ApiResponse);
   } catch (err) {
     console.error('Blog create error:', err);
-    res.status(500).json({ success: false, error: 'Internal server error.' } as ApiResponse);
+    res.status(500).json({ success: false, error: err instanceof Error ? err.message : ((err as any)?.message || 'Internal server error.') } as ApiResponse);
   }
 });
 
@@ -145,7 +145,7 @@ router.put('/:id', authenticate, async (req: AuthRequest, res: Response): Promis
     res.json({ success: true, data, message: 'Blog post updated.' } as ApiResponse);
   } catch (err) {
     console.error('Blog update error:', err);
-    res.status(500).json({ success: false, error: 'Internal server error.' } as ApiResponse);
+    res.status(500).json({ success: false, error: err instanceof Error ? err.message : ((err as any)?.message || 'Internal server error.') } as ApiResponse);
   }
 });
 
@@ -159,8 +159,10 @@ router.delete('/:id', authenticate, async (req: AuthRequest, res: Response): Pro
     res.json({ success: true, message: 'Blog post deleted.' } as ApiResponse);
   } catch (err) {
     console.error('Blog delete error:', err);
-    res.status(500).json({ success: false, error: 'Internal server error.' } as ApiResponse);
+    res.status(500).json({ success: false, error: err instanceof Error ? err.message : ((err as any)?.message || 'Internal server error.') } as ApiResponse);
   }
 });
 
 export default router;
+
+
