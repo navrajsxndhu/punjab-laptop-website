@@ -135,7 +135,7 @@ export function ProductForm({ productId }: ProductFormProps) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-8 max-w-4xl">
-      <div className="rounded-[20px] bg-white shadow-soft border border-gray-100 p-6 lg:p-8 space-y-5">
+      <div className="rounded-[20px] bg-surface/50 backdrop-blur-md shadow-soft border border-white/10 p-6 lg:p-8 space-y-5">
         <h2 className="font-display font-semibold text-heading-sm">Basic Info</h2>
         <div className="grid sm:grid-cols-2 gap-5">
           <Field label="Product Name *">
@@ -174,7 +174,7 @@ export function ProductForm({ productId }: ProductFormProps) {
         </Field>
       </div>
 
-      <div className="rounded-[20px] bg-white shadow-soft border border-gray-100 p-6 lg:p-8 space-y-5">
+      <div className="rounded-[20px] bg-surface/50 backdrop-blur-md shadow-soft border border-white/10 p-6 lg:p-8 space-y-5">
         <h2 className="font-display font-semibold text-heading-sm">Specifications</h2>
         <div className="grid sm:grid-cols-2 gap-5">
           {(['processor', 'ram', 'storage', 'display_size', 'graphics', 'os', 'warranty'] as const).map((key) => (
@@ -192,7 +192,7 @@ export function ProductForm({ productId }: ProductFormProps) {
         </div>
       </div>
 
-      <div className="rounded-[20px] bg-white shadow-soft border border-gray-100 p-6 lg:p-8 space-y-5">
+      <div className="rounded-[20px] bg-surface/50 backdrop-blur-md shadow-soft border border-white/10 p-6 lg:p-8 space-y-5">
         <h2 className="font-display font-semibold text-heading-sm">Pricing & Status</h2>
         <div className="grid sm:grid-cols-2 gap-5">
           <Field label="Price (₹) *">
@@ -208,7 +208,7 @@ export function ProductForm({ productId }: ProductFormProps) {
         </div>
       </div>
 
-      <div className="rounded-[20px] bg-white shadow-soft border border-gray-100 p-6 lg:p-8">
+      <div className="rounded-[20px] bg-surface/50 backdrop-blur-md shadow-soft border border-white/10 p-6 lg:p-8">
         <ImageUploader label="Product Images" value={form.images} onChange={(urls) => set('images', urls)} folder="products" />
       </div>
 
@@ -242,7 +242,7 @@ function Toggle({ label, checked, onChange }: { label: string; checked: boolean;
         role="switch"
         aria-checked={checked}
         onClick={() => onChange(!checked)}
-        className={`relative w-11 h-6 rounded-pill transition-colors ${checked ? 'bg-accent' : 'bg-gray-200'}`}
+        className={`relative w-11 h-6 rounded-pill transition-colors ${checked ? 'bg-accent' : 'bg-white/10 border border-white/10'}`}
       >
         <span className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform ${checked ? 'translate-x-5' : ''}`} />
       </button>
