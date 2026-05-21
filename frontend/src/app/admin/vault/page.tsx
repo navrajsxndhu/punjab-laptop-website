@@ -136,7 +136,7 @@ export default function SecurityVaultPage() {
                   name="currentPassword"
                   value={formData.currentPassword}
                   onChange={handleChange}
-                  placeholder="Verification required"
+                  placeholder="Verification required (or Recovery Key)"
                   className="w-full bg-white/5 border border-white/10 rounded-xl pl-4 pr-12 py-3 text-sm text-text-primary focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all placeholder:text-text-muted/50"
                 />
                 <button 
