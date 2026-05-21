@@ -12,6 +12,8 @@ import {
   Mail,
   Settings,
   Star,
+  Shield,
+  Server,
   X,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -25,6 +27,8 @@ const nav = [
   { href: '/admin/banners', label: 'Banners', icon: Image },
   { href: '/admin/testimonials', label: 'Testimonials', icon: Star },
   { href: '/admin/inquiries', label: 'Inquiries', icon: Mail },
+  { href: '/admin/vault', label: 'Security Vault', icon: Shield },
+  { href: '/admin/config', label: 'System Config', icon: Server },
   { href: '/admin/settings', label: 'Settings', icon: Settings },
 ];
 
