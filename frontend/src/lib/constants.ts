@@ -87,6 +87,7 @@ export const FOOTER_LINKS = {
     { label: 'Contact', href: '/contact' },
     { label: 'Blog', href: '/blog' },
     { label: 'Offers & Deals', href: '/offers' },
+    { label: 'License', href: '/license' },
   ],
 } as const;
 

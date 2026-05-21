@@ -1,8 +1,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { Laptop, Loader2, Lock, AlertCircle } from 'lucide-react';
+import { Laptop, Loader2, Lock, AlertCircle, ArrowLeft } from 'lucide-react';
 import { useAdminAuth } from '@/contexts/AdminAuthContext';
 import { useToast } from '@/contexts/ToastContext';
 import { BUSINESS } from '@/lib/constants';
@@ -125,6 +126,23 @@ export default function AdminLoginPage() {
               )}
             </motion.button>
           </form>
+
+          <div className="mt-6 flex flex-col items-center gap-4 border-t border-white/10 pt-6">
+            <button
+              type="button"
+              onClick={() => toast.info('Please contact the superadmin or use your Recovery Key.')}
+              className="text-[13px] text-white/50 hover:text-white transition-colors"
+            >
+              Forgot password?
+            </button>
+            <Link
+              href="/"
+              className="flex items-center gap-2 text-[13px] text-white/50 hover:text-white transition-colors group"
+            >
+              <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" />
+              Return to main website
+            </Link>
+          </div>
         </div>
       </motion.div>
     </div>

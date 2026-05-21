@@ -134,9 +134,14 @@ export function Footer() {
           <p className="text-white/40 text-body-sm">
             © {currentYear} {BUSINESS.name}. All rights reserved.
           </p>
-          <p className="text-white/30 text-caption">
-            Made with ♥ in Sirsa, Haryana
-          </p>
+          <div className="flex flex-col sm:items-end gap-1 text-center sm:text-right">
+            <p className="text-white/30 text-caption">
+              Made with ♥ in Sirsa, Haryana
+            </p>
+            <p className="text-white/30 text-caption">
+              Designed & Developed by <a href="https://github.com/navrajsxndhu" target="_blank" rel="noopener noreferrer" className="text-white/50 hover:text-white transition-colors">Navraj Sandhu</a>
+            </p>
+          </div>
         </div>
       </div>
     </footer>
