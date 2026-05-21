@@ -80,15 +80,19 @@
 
   /* Glass morphism */
   .glass {
-    @apply bg-surface/80 backdrop-blur-md border border-white/10 shadow-glass;
+    @apply bg-background/75 backdrop-blur-xl border border-white/10;
   }
 
   .glass-dark {
-    @apply bg-graphite/80 backdrop-blur-md border border-white/10 shadow-2xl;
+    @apply bg-background/90 backdrop-blur-xl border border-white/10;
   }
 
   .glass-nav {
-    @apply bg-graphite/85 backdrop-blur-md border-b border-white/10 shadow-glass;
+    background: rgba(15, 23, 42, 0.75);
+    backdrop-filter: blur(24px) saturate(220%);
+    -webkit-backdrop-filter: blur(24px) saturate(220%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    @apply transition-all duration-400;
   }
 
   .section-surface {
@@ -105,46 +109,56 @@
 
   /* Premium card */
   .card-premium {
-    @apply relative bg-surface rounded-card shadow-soft border border-white/5
-           transition-all duration-400 ease-apple
-           hover:shadow-card-hover hover:-translate-y-1;
+    background: rgba(15, 23, 42, 0.4);
+    backdrop-filter: blur(8px) saturate(180%);
+    -webkit-backdrop-filter: blur(8px);
+    @apply relative p-8 rounded-[32px] border border-white/10 transition-all duration-500 overflow-hidden transform-gpu;
+    will-change: transform, opacity;
   }
 
   .card-premium::before {
     content: '';
-    @apply absolute inset-0 rounded-card opacity-0 transition-opacity duration-400;
-    background: linear-gradient(135deg, rgba(59,130,246,0.05), rgba(16,185,129,0.05));
+    @apply absolute inset-0 opacity-0 pointer-events-none transition-opacity duration-400;
+    background: radial-gradient(circle at center, rgba(56, 189, 248, 0.15), transparent 70%);
   }
 
-  .card-premium:hover::before {
-    @apply opacity-100;
+  .card-premium:hover {
+    @apply border-accent/40 -translate-y-3 scale-[1.02];
+    box-shadow: 0 40px 80px rgba(0, 0, 0, 0.5), 0 0 30px rgba(56, 189, 248, 0.1);
+  }
+
+  .card-premium:active {
+    @apply scale-95;
   }
 
   /* Premium button */
   .btn-primary {
     @apply relative inline-flex items-center justify-center gap-2
-           px-6 py-3 rounded-button font-medium text-white
-           bg-accent hover:bg-accent-600
-           shadow-soft hover:shadow-glow-blue
-           transition-[transform,box-shadow,background-color] duration-300 ease-apple
-           active:scale-[0.97] active:shadow-none
-           will-change-transform;
-  }
-
-  .btn-primary::before,
-  .btn-glass-shine::before {
-    content: '';
-    @apply absolute inset-0 rounded-button opacity-0 transition-opacity duration-300 pointer-events-none;
-    background: linear-gradient(135deg, rgba(255,255,255,0.28), transparent 55%);
-  }
-
-  .btn-primary:hover::before,
-  .btn-glass-shine:hover::before {
-    @apply opacity-100;
+           px-7 py-3.5 rounded-xl font-semibold text-white
+           bg-primary hover:bg-primary-700
+           transition-all duration-300
+           active:scale-95 active:opacity-80 hover:-translate-y-0.5;
   }
 
   .btn-glass-shine {
     @apply shadow-soft hover:shadow-glow-blue;
+  }
+
+  .cta-btn-premium {
+    @apply relative bg-white/95 text-primary rounded-full px-11 py-4 font-extrabold text-lg
+           border-none shadow-[0_15px_35px_rgba(0,0,0,0.15)] transition-all duration-400
+           hover:scale-105 hover:-translate-y-1 hover:shadow-[0_25px_50px_rgba(0,0,0,0.2)]
+           overflow-hidden;
+  }
+
+  .cta-btn-premium::after {
+    content: '';
+    @apply absolute top-0 -left-[100%] w-full h-full transition-[left] duration-700;
+    background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.2), transparent);
+  }
+
+  .cta-btn-premium:hover::after {
+    @apply left-full;
   }
 
   .btn-whatsapp {
