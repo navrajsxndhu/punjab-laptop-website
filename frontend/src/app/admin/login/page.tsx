@@ -130,7 +130,7 @@ export default function AdminLoginPage() {
           <div className="mt-6 flex flex-col items-center gap-4 border-t border-white/10 pt-6">
             <button
               type="button"
-              onClick={() => toast.info('Please contact the superadmin or use your Recovery Key.')}
+              onClick={() => toast.error('Please contact the superadmin or use your Recovery Key.')}
               className="text-[13px] text-white/50 hover:text-white transition-colors"
             >
               Forgot password?

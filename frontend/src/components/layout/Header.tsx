@@ -65,13 +65,13 @@ export function Header() {
             <div className="flex flex-col">
               <span className={cn(
                 'font-display font-bold text-[15px] leading-tight tracking-tight transition-colors duration-300',
-                isScrolled ? 'text-primary' : 'text-primary'
+                isScrolled ? 'text-white' : 'text-white'
               )}>
                 Punjab Laptop
               </span>
               <span className={cn(
                 'text-[10px] font-medium tracking-[0.08em] uppercase transition-colors duration-300',
-                isScrolled ? 'text-text-muted' : 'text-text-muted'
+                isScrolled ? 'text-white/60' : 'text-white/60'
               )}>
                 Sirsa
               </span>
@@ -88,7 +88,7 @@ export function Header() {
                   'relative px-4 py-2 text-[14px] font-medium rounded-button transition-all duration-250 ease-apple',
                   isActive(link.href)
                     ? 'text-accent'
-                    : 'text-text-muted hover:text-text-primary hover:bg-gray-50'
+                    : 'text-white/70 hover:text-white hover:bg-white/10'
                 )}
               >
                 {link.label}
@@ -107,7 +107,7 @@ export function Header() {
           <div className="hidden lg:flex items-center gap-3">
             <Link
               href="/admin/login"
-              className="btn-ghost text-[13px]"
+              className="btn-ghost text-white hover:text-white hover:bg-white/10 text-[13px]"
             >
               Admin
             </Link>
@@ -128,7 +128,7 @@ export function Header() {
 
           {/* Mobile Menu Button */}
           <motion.button
-            className="lg:hidden flex items-center justify-center w-10 h-10 rounded-xl hover:bg-gray-100 transition-colors"
+            className="lg:hidden flex items-center justify-center w-10 h-10 rounded-xl text-white hover:bg-white/10 transition-colors"
             onClick={() => setIsMobileOpen(!isMobileOpen)}
             whileTap={{ scale: 0.9 }}
             aria-label="Toggle menu"

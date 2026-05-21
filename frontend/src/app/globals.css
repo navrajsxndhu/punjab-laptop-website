@@ -80,15 +80,15 @@
 
   /* Glass morphism */
   .glass {
-    @apply bg-white/65 backdrop-blur-2xl border border-white/40 shadow-glass;
+    @apply bg-white/70 backdrop-blur-md border border-white/40 shadow-glass;
   }
 
   .glass-dark {
-    @apply bg-primary/75 backdrop-blur-2xl border border-white/10 shadow-2xl;
+    @apply bg-graphite/80 backdrop-blur-md border border-white/10 shadow-2xl;
   }
 
   .glass-nav {
-    @apply bg-white/70 backdrop-blur-2xl border-b border-white/40 shadow-glass;
+    @apply bg-graphite/85 backdrop-blur-md border-b border-white/10 shadow-glass;
   }
 
   .section-surface {
@@ -96,11 +96,11 @@
   }
 
   .section-surface-alt {
-    @apply relative section-padding bg-gradient-to-b from-slate-100/60 via-white to-background;
+    @apply relative section-padding bg-gradient-to-b from-charcoal via-graphite to-apple-dark text-white;
   }
 
   .section-dark {
-    @apply relative section-padding bg-gradient-to-br from-primary via-primary-900 to-primary text-white;
+    @apply relative section-padding bg-apple-dark text-white;
   }
 
   /* Premium card */
@@ -200,7 +200,7 @@
 
   .glow-blue::after {
     content: '';
-    @apply absolute -inset-1 rounded-card bg-accent/20 blur-xl -z-10 
+    @apply absolute -inset-1 rounded-card bg-accent/20 blur-md -z-10 
            opacity-0 transition-opacity duration-500;
   }
 

@@ -22,21 +22,17 @@ const fadeUp = {
 
 export function HeroSection() {
   const reduce = useReducedMotion();
-  const { scrollY } = useScroll();
-  const visualY = useTransform(scrollY, [0, 400], [0, reduce ? 0 : 40]);
-  const copyY = useTransform(scrollY, [0, 400], [0, reduce ? 0 : -16]);
 
   return (
-    <section className="relative min-h-[var(--hero-height)] flex items-center overflow-hidden">
+    <section className="relative min-h-[var(--hero-height)] flex items-center overflow-hidden section-dark">
       <PremiumBackground variant="hero" />
-      <div className="absolute inset-0 bg-[linear-gradient(180deg,transparent_0%,rgba(248,250,252,0.4)_70%,#F8FAFC_100%)] pointer-events-none" />
 
       <div className="container-wide relative z-10 py-16 sm:py-20 lg:py-28">
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-20 items-center">
-          <motion.div style={{ y: copyY }} variants={stagger} initial="hidden" animate="show">
+          <motion.div variants={stagger} initial="hidden" animate="show">
             <motion.div
               variants={fadeUp}
-              className="inline-flex items-center gap-2 glass rounded-pill px-4 py-2.5 mb-7 shadow-soft border border-white/60 gpu-accelerate"
+              className="inline-flex items-center gap-2 glass-dark rounded-pill px-4 py-2.5 mb-7 border border-white/10 gpu-accelerate"
             >
               <Sparkles className="w-3.5 h-3.5 text-accent" aria-hidden />
               <span className="flex items-center gap-1 text-deals">
@@ -53,7 +49,7 @@ export function HeroSection() {
 
             <motion.h1
               variants={fadeUp}
-              className="font-display text-[2.25rem] sm:text-display-md lg:text-[3.75rem] text-text-primary text-balance mb-6 tracking-[-0.03em] leading-[1.08]"
+              className="font-display text-[2.25rem] sm:text-display-md lg:text-[3.75rem] text-white text-balance mb-6 tracking-[-0.03em] leading-[1.08]"
             >
               Sirsa&apos;s Most{' '}
               <span className="text-gradient bg-gradient-to-r from-accent via-blue-600 to-accent-700 bg-clip-text text-transparent">
@@ -62,7 +58,7 @@ export function HeroSection() {
               Laptop Destination
             </motion.h1>
 
-            <motion.p variants={fadeUp} className="text-body-lg sm:text-[1.125rem] text-text-muted max-w-xl mb-9 leading-relaxed">
+            <motion.p variants={fadeUp} className="text-body-lg sm:text-[1.125rem] text-white/70 max-w-xl mb-9 leading-relaxed">
               {BUSINESS.description}
             </motion.p>
 
@@ -88,14 +84,13 @@ export function HeroSection() {
               </motion.a>
             </motion.div>
 
-            <motion.div variants={fadeUp} className="flex items-start gap-2 text-body-sm text-text-muted max-w-lg">
+            <motion.div variants={fadeUp} className="flex items-start gap-2 text-body-sm text-white/60 max-w-lg">
               <MapPin className="w-4 h-4 text-accent shrink-0 mt-0.5" />
               <span>{BUSINESS.address}</span>
             </motion.div>
           </motion.div>
 
           <motion.div
-            style={{ y: visualY }}
             initial={reduce ? false : { opacity: 0, scale: 0.94 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1, delay: 0.2, ease: APPLE_EASE }}
@@ -106,7 +101,7 @@ export function HeroSection() {
               <motion.div
                 animate={reduce ? undefined : { y: [0, -16, 0] }}
                 transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
-                className="relative z-10 rounded-[32px] overflow-hidden shadow-large border border-white/70 bg-white/90 backdrop-blur-md p-6 gpu-accelerate"
+                className="relative z-10 rounded-[32px] overflow-hidden shadow-2xl border border-white/10 glass-dark p-6 gpu-accelerate"
               >
                 <div className="absolute inset-0 bg-gradient-to-tr from-white/40 via-transparent to-accent/5 pointer-events-none" />
                 <Image
@@ -122,16 +117,16 @@ export function HeroSection() {
                 initial={reduce ? false : { opacity: 0, x: 24 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.75, ease: APPLE_EASE }}
-                className="absolute top-10 -right-2 glass rounded-2xl px-5 py-4 shadow-medium border border-white/50 gpu-accelerate"
+                className="absolute top-10 -right-2 glass-dark rounded-2xl px-5 py-4 shadow-medium border border-white/10 gpu-accelerate"
               >
-                <span className="text-caption text-text-muted block mb-0.5">Starting from</span>
+                <span className="text-caption text-white/60 block mb-0.5">Starting from</span>
                 <span className="font-display font-bold text-2xl text-accent tracking-tight">₹31,999</span>
               </motion.div>
               <motion.div
                 initial={reduce ? false : { opacity: 0, x: -24 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.95, ease: APPLE_EASE }}
-                className="absolute bottom-20 -left-2 glass rounded-2xl px-5 py-3.5 shadow-medium border border-white/50 gpu-accelerate"
+                className="absolute bottom-20 -left-2 glass-dark rounded-2xl px-5 py-3.5 shadow-medium border border-white/10 gpu-accelerate"
               >
                 <span className="text-body-sm font-semibold text-whatsapp">✓ Warranty included</span>
               </motion.div>
