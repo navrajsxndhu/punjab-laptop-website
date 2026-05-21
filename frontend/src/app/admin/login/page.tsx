@@ -70,9 +70,9 @@ export default function AdminLoginPage() {
 
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
-              <label className="text-caption text-white/60 block mb-2">Email</label>
+              <label className="text-caption text-white/60 block mb-2">Username or Email</label>
               <input
-                type="email"
+                type="text"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full px-4 py-3 rounded-input bg-white/10 border border-white/10 text-white placeholder:text-white/30 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20"

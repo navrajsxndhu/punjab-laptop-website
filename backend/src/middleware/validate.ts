@@ -156,9 +156,7 @@ export const validateBanner = [
 export const validateLogin = [
   body('email')
     .trim()
-    .notEmpty().withMessage('Email is required')
-    .isEmail().withMessage('Invalid email address')
-    .normalizeEmail(),
+    .notEmpty().withMessage('Username/Email is required'),
   body('password')
     .notEmpty().withMessage('Password is required')
     .isLength({ min: 6 }).withMessage('Password must be at least 6 characters'),
