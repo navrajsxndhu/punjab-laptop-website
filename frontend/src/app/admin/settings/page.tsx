@@ -12,7 +12,7 @@ export default function AdminSettingsPage() {
   return (
     <AdminPage title="Settings" subtitle="Account and store preferences">
       <div className="max-w-2xl space-y-6">
-        <section className="rounded-[20px] bg-white shadow-soft border border-gray-100 p-6 lg:p-8">
+        <section className="rounded-[20px] bg-surface/50 backdrop-blur-md shadow-soft border border-white/10 p-6 lg:p-8">
           <div className="flex items-center gap-3 mb-6">
             <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center">
               <Shield className="w-5 h-5 text-accent" />
@@ -39,7 +39,7 @@ export default function AdminSettingsPage() {
           </button>
         </section>
 
-        <section className="rounded-[20px] bg-white shadow-soft border border-gray-100 p-6 lg:p-8">
+        <section className="rounded-[20px] bg-surface/50 backdrop-blur-md shadow-soft border border-white/10 p-6 lg:p-8">
           <h2 className="font-display font-semibold text-heading-sm mb-4">Store</h2>
           <p className="text-body-sm text-text-muted mb-4">{BUSINESS.address}</p>
           <p className="text-body-sm text-text-muted">WhatsApp: +91 {BUSINESS.phone}</p>
@@ -49,7 +49,7 @@ export default function AdminSettingsPage() {
           </Link>
         </section>
 
-        <section className="rounded-[20px] glass border border-gray-100 p-6 text-caption text-text-muted">
+        <section className="rounded-[20px] glass border border-white/10 p-6 text-caption text-text-muted">
           <p>API: {process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}</p>
           <p className="mt-2">Change default admin password in Supabase before production deployment.</p>
         </section>

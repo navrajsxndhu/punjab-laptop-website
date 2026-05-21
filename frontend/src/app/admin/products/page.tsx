@@ -66,7 +66,7 @@ export default function AdminProductsPage() {
       <div className="mb-6 relative max-w-md">
         <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
         <input
-          className="input-field pl-11"
+          className="input-field pl-11 bg-white/5 border-white/10 text-text-primary"
           placeholder="Search products..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
@@ -92,11 +92,11 @@ export default function AdminProductsPage() {
           }
         />
       ) : (
-        <div className="rounded-[20px] bg-white shadow-soft border border-gray-100 overflow-hidden">
+        <div className="rounded-[20px] bg-surface/50 backdrop-blur-md shadow-soft border border-white/10 overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-left">
               <thead>
-                <tr className="border-b border-gray-100 text-caption text-text-muted uppercase tracking-wide">
+                <tr className="border-b border-white/10 text-caption text-text-muted uppercase tracking-wide">
                   <th className="px-5 py-4 font-medium">Product</th>
                   <th className="px-5 py-4 font-medium hidden md:table-cell">Price</th>
                   <th className="px-5 py-4 font-medium hidden sm:table-cell">Stock</th>
@@ -106,13 +106,13 @@ export default function AdminProductsPage() {
               </thead>
               <tbody>
                 {filtered.map((p) => (
-                  <tr key={p.id} className="border-b border-gray-50 hover:bg-gray-50/50 transition-colors">
+                  <tr key={p.id} className="border-b border-white/5 hover:bg-white/5 transition-colors">
                     <td className="px-5 py-4">
                       <div className="flex items-center gap-3">
                         {p.images?.[0] ? (
-                          <img src={p.images[0]} alt="" className="w-12 h-12 rounded-lg object-cover bg-gray-100" />
+                          <img src={p.images[0]} alt="" className="w-12 h-12 rounded-lg object-cover bg-white/5" />
                         ) : (
-                          <div className="w-12 h-12 rounded-lg bg-gray-100" />
+                          <div className="w-12 h-12 rounded-lg bg-white/5" />
                         )}
                         <div>
                           <p className="font-medium text-body-sm text-text-primary">{p.name}</p>

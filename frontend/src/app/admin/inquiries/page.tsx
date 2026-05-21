@@ -60,7 +60,7 @@ export default function AdminInquiriesPage() {
               onClick={() => setFilter(f)}
               className={cn(
                 'px-4 py-2 rounded-pill text-body-sm font-medium capitalize transition-colors',
-                filter === f ? 'bg-accent text-white' : 'bg-white text-text-muted border border-gray-200'
+                filter === f ? 'bg-accent text-white' : 'bg-white/5 text-text-muted border border-white/10 hover:bg-white/10'
               )}
             >
               {f}
@@ -80,7 +80,7 @@ export default function AdminInquiriesPage() {
               key={inq.id}
               className={cn(
                 'rounded-[20px] p-5 lg:p-6 border transition-all',
-                inq.read ? 'bg-white border-gray-100 shadow-soft' : 'bg-accent/5 border-accent/20 shadow-soft'
+                inq.read ? 'bg-white border-white/10 shadow-soft' : 'bg-accent/5 border-accent/20 shadow-soft'
               )}
             >
               <div className="flex flex-wrap justify-between gap-3 mb-3">

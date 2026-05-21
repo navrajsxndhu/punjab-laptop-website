@@ -41,7 +41,7 @@ export default function AdminTestimonialsPage() {
     <AdminPage title="Testimonials" subtitle="Customer reviews" actions={<button type="button" onClick={() => { setEditing(null); setForm({ name: '', text: '', rating: 5, location: 'Sirsa', avatar_url: '', verified: true }); setOpen(true); }} className="btn-primary text-body-sm py-2.5"><Plus className="w-4 h-4" />Add</button>}>
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
         {items.map((t, i) => (
-          <motion.div key={t.id} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.04 }} className="p-5 rounded-[20px] bg-white shadow-soft border border-gray-100">
+          <motion.div key={t.id} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.04 }} className="p-5 rounded-[20px] bg-surface/50 backdrop-blur-md shadow-soft border border-white/10">
             <div className="flex gap-1 mb-2">{Array.from({ length: t.rating }).map((_, j) => <Star key={j} className="w-3.5 h-3.5 fill-deals text-deals" />)}</div>
             <p className="text-body-sm text-text-muted line-clamp-3">&ldquo;{t.text}&rdquo;</p>
             <p className="font-medium text-body-sm mt-3">{t.name}</p>
@@ -58,12 +58,12 @@ export default function AdminTestimonialsPage() {
         {open && (
           <>
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 bg-black/30 z-50" onClick={() => setOpen(false)} />
-            <motion.div initial={{ scale: 0.95 }} animate={{ scale: 1 }} exit={{ scale: 0.95 }} className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md bg-white rounded-[20px] shadow-2xl z-50 p-6 space-y-4">
+            <motion.div initial={{ scale: 0.95 }} animate={{ scale: 1 }} exit={{ scale: 0.95 }} className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md bg-surface border border-white/10 rounded-[20px] shadow-2xl z-50 p-6 space-y-4">
               <div className="flex justify-between"><h2 className="font-display font-semibold">{editing ? 'Edit' : 'New'} Testimonial</h2><button type="button" onClick={() => setOpen(false)}><X /></button></div>
-              <input className="input-field" placeholder="Name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
+              <input className="input-field bg-white/5 border-white/10 text-text-primary" placeholder="Name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
               <textarea className="input-field resize-none" rows={4} placeholder="Review text" value={form.text} onChange={(e) => setForm({ ...form, text: e.target.value })} />
-              <input className="input-field" placeholder="Location" value={form.location} onChange={(e) => setForm({ ...form, location: e.target.value })} />
-              <select className="input-field" value={form.rating} onChange={(e) => setForm({ ...form, rating: parseInt(e.target.value, 10) })}>{[5, 4, 3, 2, 1].map((r) => <option key={r} value={r}>{r} stars</option>)}</select>
+              <input className="input-field bg-white/5 border-white/10 text-text-primary" placeholder="Location" value={form.location} onChange={(e) => setForm({ ...form, location: e.target.value })} />
+              <select className="input-field bg-white/5 border-white/10 text-text-primary" value={form.rating} onChange={(e) => setForm({ ...form, rating: parseInt(e.target.value, 10) })}>{[5, 4, 3, 2, 1].map((r) => <option key={r} value={r}>{r} stars</option>)}</select>
               <ImageUploader value={form.avatar_url ? [form.avatar_url] : []} onChange={(u) => setForm({ ...form, avatar_url: u[0] || '' })} multiple={false} folder="avatars" />
               <label className="flex gap-2 text-body-sm"><input type="checkbox" checked={form.verified} onChange={(e) => setForm({ ...form, verified: e.target.checked })} /> Verified badge</label>
               <button type="button" onClick={save} disabled={saving} className="btn-primary w-full">Save</button>

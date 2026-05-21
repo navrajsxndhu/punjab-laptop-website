@@ -121,7 +121,7 @@ export default function AdminOffersPage() {
               <div className="absolute inset-0 bg-gradient-to-br from-primary/90 to-accent/70" />
               <div className="relative p-6 flex flex-col justify-between min-h-[160px]">
                 <div>
-                  <span className={`badge text-xs mb-2 ${o.active ? 'bg-whatsapp/20 text-white' : 'bg-white/20 text-white/70'}`}>
+                  <span className={`badge text-xs mb-2 ${o.active ? 'bg-whatsapp/20 text-white' : 'bg-white/10 text-text-muted'}`}>
                     {o.active ? 'Active' : 'Inactive'}
                   </span>
                   <h3 className="font-display font-bold text-white text-heading-md">{o.title}</h3>
@@ -149,7 +149,7 @@ export default function AdminOffersPage() {
               initial={{ opacity: 0, x: 40 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 40 }}
-              className="fixed right-0 top-0 bottom-0 w-full max-w-lg bg-white shadow-2xl z-50 overflow-y-auto"
+              className="fixed right-0 top-0 bottom-0 w-full max-w-lg bg-surface border-l border-white/10 shadow-2xl z-50 overflow-y-auto"
             >
               <div className="p-6 lg:p-8 space-y-5">
                 <div className="flex justify-between items-center">
@@ -158,19 +158,19 @@ export default function AdminOffersPage() {
                     <X className="w-5 h-5" />
                   </button>
                 </div>
-                <input className="input-field" placeholder="Title" value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} />
+                <input className="input-field bg-white/5 border-white/10 text-text-primary" placeholder="Title" value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} />
                 <textarea className="input-field resize-none" rows={3} placeholder="Description" value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} />
-                <select className="input-field" value={form.discount_type} onChange={(e) => setForm({ ...form, discount_type: e.target.value as typeof form.discount_type })}>
+                <select className="input-field bg-white/5 border-white/10 text-text-primary" value={form.discount_type} onChange={(e) => setForm({ ...form, discount_type: e.target.value as typeof form.discount_type })}>
                   <option value="percentage">Percentage</option>
                   <option value="flat">Flat (₹)</option>
                   <option value="special">Special</option>
                 </select>
                 {form.discount_type !== 'special' && (
-                  <input type="number" className="input-field" placeholder="Discount value" value={form.discount_value} onChange={(e) => setForm({ ...form, discount_value: e.target.value })} />
+                  <input type="number" className="input-field bg-white/5 border-white/10 text-text-primary" placeholder="Discount value" value={form.discount_value} onChange={(e) => setForm({ ...form, discount_value: e.target.value })} />
                 )}
                 <div className="grid grid-cols-2 gap-3">
-                  <input type="datetime-local" className="input-field" value={form.valid_from} onChange={(e) => setForm({ ...form, valid_from: e.target.value })} />
-                  <input type="datetime-local" className="input-field" value={form.valid_until} onChange={(e) => setForm({ ...form, valid_until: e.target.value })} />
+                  <input type="datetime-local" className="input-field bg-white/5 border-white/10 text-text-primary" value={form.valid_from} onChange={(e) => setForm({ ...form, valid_from: e.target.value })} />
+                  <input type="datetime-local" className="input-field bg-white/5 border-white/10 text-text-primary" value={form.valid_until} onChange={(e) => setForm({ ...form, valid_until: e.target.value })} />
                 </div>
                 <ImageUploader value={form.banner_image ? [form.banner_image] : []} onChange={(urls) => setForm({ ...form, banner_image: urls[0] || '' })} multiple={false} folder="offers" />
                 <label className="flex items-center gap-2">

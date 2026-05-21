@@ -33,6 +33,7 @@ export function AdminAuthProvider({ children }: { children: React.ReactNode }) {
     if (stored) {
       try {
         setUser(JSON.parse(stored) as AdminUser);
+        setLoading(false); // Instantly stop loading if we have cached user
       } catch {
         localStorage.removeItem(USER_KEY);
       }

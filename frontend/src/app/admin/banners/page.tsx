@@ -41,7 +41,7 @@ export default function AdminBannersPage() {
     <AdminPage title="Banners" subtitle="Homepage hero slides" actions={<button type="button" onClick={() => { setEditing(null); setForm({ title: '', subtitle: '', image_url: '', link: '/products', active: true, sort_order: banners.length }); setOpen(true); }} className="btn-primary text-body-sm py-2.5"><Plus className="w-4 h-4" />Add Banner</button>}>
       <div className="grid md:grid-cols-2 gap-4">
         {banners.map((b, i) => (
-          <motion.div key={b.id} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }} className="rounded-[20px] overflow-hidden shadow-soft bg-white border border-gray-100">
+          <motion.div key={b.id} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }} className="rounded-[20px] overflow-hidden shadow-soft bg-white border border-white/10">
             <div className="aspect-[21/9] bg-gray-100 relative">
               {b.image_url && <img src={b.image_url} alt="" className="w-full h-full object-cover" />}
             </div>
@@ -64,12 +64,12 @@ export default function AdminBannersPage() {
         {open && (
           <>
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 bg-black/30 z-50" onClick={() => setOpen(false)} />
-            <motion.div initial={{ x: 400 }} animate={{ x: 0 }} exit={{ x: 400 }} className="fixed right-0 top-0 bottom-0 w-full max-w-md bg-white z-50 p-6 overflow-y-auto space-y-4">
+            <motion.div initial={{ x: 400 }} animate={{ x: 0 }} exit={{ x: 400 }} className="fixed right-0 top-0 bottom-0 w-full max-w-md bg-surface border-l border-white/10 z-50 p-6 overflow-y-auto space-y-4">
               <div className="flex justify-between"><h2 className="font-display font-semibold">{editing ? 'Edit' : 'New'} Banner</h2><button type="button" onClick={() => setOpen(false)}><X /></button></div>
-              <input className="input-field" placeholder="Title" value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} />
-              <input className="input-field" placeholder="Subtitle" value={form.subtitle} onChange={(e) => setForm({ ...form, subtitle: e.target.value })} />
-              <input className="input-field" placeholder="Link (/products)" value={form.link} onChange={(e) => setForm({ ...form, link: e.target.value })} />
-              <input type="number" className="input-field" placeholder="Sort order" value={form.sort_order} onChange={(e) => setForm({ ...form, sort_order: parseInt(e.target.value, 10) || 0 })} />
+              <input className="input-field bg-white/5 border-white/10 text-text-primary" placeholder="Title" value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} />
+              <input className="input-field bg-white/5 border-white/10 text-text-primary" placeholder="Subtitle" value={form.subtitle} onChange={(e) => setForm({ ...form, subtitle: e.target.value })} />
+              <input className="input-field bg-white/5 border-white/10 text-text-primary" placeholder="Link (/products)" value={form.link} onChange={(e) => setForm({ ...form, link: e.target.value })} />
+              <input type="number" className="input-field bg-white/5 border-white/10 text-text-primary" placeholder="Sort order" value={form.sort_order} onChange={(e) => setForm({ ...form, sort_order: parseInt(e.target.value, 10) || 0 })} />
               <ImageUploader value={form.image_url ? [form.image_url] : []} onChange={(u) => setForm({ ...form, image_url: u[0] || '' })} multiple={false} folder="banners" />
               <label className="flex gap-2 text-body-sm"><input type="checkbox" checked={form.active} onChange={(e) => setForm({ ...form, active: e.target.checked })} /> Active</label>
               <button type="button" onClick={save} disabled={saving || !form.image_url} className="btn-primary w-full">Save</button>
