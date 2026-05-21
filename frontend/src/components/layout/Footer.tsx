@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Laptop, MapPin, Phone, Clock, Instagram, ArrowUpRight } from 'lucide-react';
+import { Laptop, MapPin, Phone, Clock, Instagram, ArrowUpRight, Github, Mail, MessageCircle } from 'lucide-react';
 import { BUSINESS, FOOTER_LINKS } from '@/lib/constants';
 
 export function Footer() {
@@ -130,17 +130,45 @@ export function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="border-t border-white/10 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="border-t border-white/10 pt-8 pb-10 flex flex-col lg:flex-row items-center justify-between gap-6">
           <p className="text-white/40 text-body-sm">
             © {currentYear} {BUSINESS.name}. All rights reserved.
           </p>
-          <div className="flex flex-col sm:items-end gap-1 text-center sm:text-right">
-            <p className="text-white/30 text-caption">
-              Made with ♥ in Sirsa, Haryana
-            </p>
-            <p className="text-white/30 text-caption">
-              Designed & Developed by <a href="https://github.com/navrajsxndhu" target="_blank" rel="noopener noreferrer" className="text-white/50 hover:text-white transition-colors">Navraj Sandhu</a>
-            </p>
+          
+          <div className="flex flex-col sm:flex-row items-center gap-6 sm:gap-12">
+            <div className="flex items-center gap-3 text-white/50 text-[13px] font-medium tracking-wide">
+              <div className="relative flex items-center justify-center">
+                <div className="absolute w-6 h-6 bg-accent/40 rounded-full blur-[8px] animate-pulse" />
+                <div className="w-2 h-2 rounded-full bg-accent relative z-10" />
+              </div>
+              <span>Designed & Engineered by</span>
+              <a 
+                href="https://github.com/navrajsxndhu" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="text-accent hover:text-white transition-colors ml-1"
+              >
+                Navraj Sandhu
+              </a>
+            </div>
+
+            <div className="flex items-center gap-5 text-white/40 pr-0 lg:pr-16">
+              <a href="https://github.com/navrajsxndhu" target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors">
+                <Github className="w-4 h-4" />
+              </a>
+              <a href={BUSINESS.instagram} target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors">
+                <Instagram className="w-4 h-4" />
+              </a>
+              <a href={`mailto:${BUSINESS.email}`} className="hover:text-accent transition-colors">
+                <Mail className="w-4 h-4" />
+              </a>
+              <a href={`tel:+${BUSINESS.phone}`} className="hover:text-accent transition-colors">
+                <Phone className="w-4 h-4" />
+              </a>
+              <a href={`https://wa.me/${BUSINESS.whatsapp}`} target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors">
+                <MessageCircle className="w-4 h-4" />
+              </a>
+            </div>
           </div>
         </div>
       </div>
