@@ -1,0 +1,7 @@
+{
+  "name": "vercel-bypass",
+  "scripts": {
+    "preinstall": "cd .. && npm install",
+    "build": "cd .. && npm run build"
+  }
+}
