@@ -19,6 +19,9 @@ export const adminApi = {
   login: (email: string, password: string) =>
     api.post<ApiRes<{ token: string; user: AdminUser }>>('/api/auth/login', { email, password }),
 
+  recover: (recoveryKey: string) =>
+    api.post<ApiRes<{ token: string; user: AdminUser }>>('/api/auth/recover', { recoveryKey }),
+
   verify: () => api.post<ApiRes<{ user: AdminUser }>>('/api/auth/verify'),
 
   refreshToken: () => api.post<ApiRes<{ token: string }>>('/api/auth/refresh'),

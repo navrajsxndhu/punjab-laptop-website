@@ -209,6 +209,61 @@ router.put('/credentials', authenticate, async (req: AuthRequest, res: Response)
   }
 });
 
+/**
+ * POST /api/auth/recover
+ * Recover account using system recovery key.
+ */
+router.post('/recover', async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { recoveryKey } = req.body;
+    
+    // Check against the hardcoded recovery key
+    if (recoveryKey !== 'PUNJAB-LAPTOP-RESET-2026') {
+      res.status(401).json({ success: false, error: 'Invalid recovery key.' } as ApiResponse);
+      return;
+    }
+
+    // Get the first admin user
+    const { data: user, error } = await supabase
+      .from('admin_users')
+      .select('*')
+      .limit(1)
+      .single();
+
+    if (error || !user) {
+      res.status(404).json({ success: false, error: 'No admin user found to recover.' } as ApiResponse);
+      return;
+    }
+
+    const adminUser = user as AdminUser;
+    
+    // Generate JWT
+    const payload: AuthPayload = {
+      id: adminUser.id,
+      email: adminUser.email,
+      role: adminUser.role,
+    };
+    const token = generateToken(payload);
+
+    res.json({
+      success: true,
+      data: {
+        token,
+        user: {
+          id: adminUser.id,
+          email: adminUser.email,
+          name: adminUser.name,
+          role: adminUser.role,
+        },
+      },
+      message: 'Recovery successful.',
+    } as ApiResponse);
+  } catch (err) {
+    console.error('Recover error:', err);
+    res.status(500).json({ success: false, error: err instanceof Error ? err.message : 'Internal server error.' } as ApiResponse);
+  }
+});
+
 export default router;
 
 

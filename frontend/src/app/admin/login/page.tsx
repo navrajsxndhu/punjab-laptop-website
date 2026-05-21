@@ -10,10 +10,12 @@ import { BUSINESS } from '@/lib/constants';
 import { checkApiHealth, getApiBaseUrl } from '@/lib/api-health';
 
 export default function AdminLoginPage() {
-  const { login, loading: authLoading } = useAdminAuth();
+  const { login, recover, loading: authLoading } = useAdminAuth();
   const toast = useToast();
-  const [email, setEmail] = useState('admin@punjablaptopsirsa.com');
+  const [email, setEmail] = useState('admin');
   const [password, setPassword] = useState('');
+  const [recoveryKey, setRecoveryKey] = useState('');
+  const [isRecoverMode, setIsRecoverMode] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [apiOk, setApiOk] = useState<boolean | null>(null);
@@ -27,8 +29,13 @@ export default function AdminLoginPage() {
     setError('');
     setLoading(true);
     try {
-      await login(email, password);
-      toast.success('Welcome back');
+      if (isRecoverMode) {
+        await recover(recoveryKey);
+        toast.success('Account recovered successfully!');
+      } else {
+        await login(email, password);
+        toast.success('Welcome back');
+      }
     } catch (err) {
       const msg = err instanceof Error ? err.message : 'Login failed';
       setError(msg);
@@ -69,26 +76,42 @@ export default function AdminLoginPage() {
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-5">
-            <div>
-              <label className="text-caption text-white/60 block mb-2">Username or Email</label>
-              <input
-                type="text"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-3 rounded-input bg-white/10 border border-white/10 text-white placeholder:text-white/30 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20"
-                required
-              />
-            </div>
-            <div>
-              <label className="text-caption text-white/60 block mb-2">Password</label>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-3 rounded-input bg-white/10 border border-white/10 text-white placeholder:text-white/30 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20"
-                required
-              />
-            </div>
+            {isRecoverMode ? (
+              <div>
+                <label className="text-caption text-white/60 block mb-2">System Recovery Key</label>
+                <input
+                  type="text"
+                  value={recoveryKey}
+                  onChange={(e) => setRecoveryKey(e.target.value)}
+                  placeholder="PUNJAB-LAPTOP-RESET-2026"
+                  className="w-full px-4 py-3 rounded-input bg-white/10 border border-white/10 text-white placeholder:text-white/30 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20"
+                  required
+                />
+              </div>
+            ) : (
+              <>
+                <div>
+                  <label className="text-caption text-white/60 block mb-2">Username or Email</label>
+                  <input
+                    type="text"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="w-full px-4 py-3 rounded-input bg-white/10 border border-white/10 text-white placeholder:text-white/30 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="text-caption text-white/60 block mb-2">Password</label>
+                  <input
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="w-full px-4 py-3 rounded-input bg-white/10 border border-white/10 text-white placeholder:text-white/30 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20"
+                    required
+                  />
+                </div>
+              </>
+            )}
 
             {apiOk === false && (
               <div className="flex items-start gap-2 text-body-sm text-amber-300 bg-amber-500/10 px-3 py-2 rounded-lg border border-amber-500/20">
@@ -121,7 +144,7 @@ export default function AdminLoginPage() {
               ) : (
                 <>
                   <Lock className="w-4 h-4" />
-                  Sign in
+                  {isRecoverMode ? 'Recover Account' : 'Sign in'}
                 </>
               )}
             </motion.button>
@@ -130,10 +153,13 @@ export default function AdminLoginPage() {
           <div className="mt-6 flex flex-col items-center gap-4 border-t border-white/10 pt-6">
             <button
               type="button"
-              onClick={() => toast.error('Please contact the superadmin or use your Recovery Key.')}
+              onClick={() => {
+                setIsRecoverMode(!isRecoverMode);
+                setError('');
+              }}
               className="text-[13px] text-white/50 hover:text-white transition-colors"
             >
-              Forgot password?
+              {isRecoverMode ? 'Back to login' : 'Forgot password?'}
             </button>
             <Link
               href="/"

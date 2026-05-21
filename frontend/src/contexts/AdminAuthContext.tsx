@@ -10,6 +10,7 @@ interface AdminAuthContextValue {
   user: AdminUser | null;
   loading: boolean;
   login: (email: string, password: string) => Promise<void>;
+  recover: (recoveryKey: string) => Promise<void>;
   logout: () => void;
   isAuthenticated: boolean;
 }
@@ -90,6 +91,17 @@ export function AdminAuthProvider({ children }: { children: React.ReactNode }) {
     router.replace('/admin');
   };
 
+  const recover = async (recoveryKey: string) => {
+    const res = await adminApi.recover(recoveryKey);
+    if (!res?.data?.token || !res?.data?.user) {
+      throw new Error('Invalid response from server. Please try again.');
+    }
+    localStorage.setItem(TOKEN_KEY, res.data.token);
+    localStorage.setItem(USER_KEY, JSON.stringify(res.data.user));
+    setUser(res.data.user);
+    router.replace('/admin');
+  };
+
   const logout = () => {
     localStorage.removeItem(TOKEN_KEY);
     localStorage.removeItem(USER_KEY);
@@ -103,6 +115,7 @@ export function AdminAuthProvider({ children }: { children: React.ReactNode }) {
         user,
         loading,
         login,
+        recover,
         logout,
         isAuthenticated: !!user,
       }}
