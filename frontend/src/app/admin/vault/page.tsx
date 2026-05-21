@@ -19,7 +19,7 @@ export default function SecurityVaultPage() {
   });
 
   const handleCopy = () => {
-    navigator.clipboard.writeText('WEBCOM-RESET-2026');
+    navigator.clipboard.writeText('PUNJAB-LAPTOP-RESET-2026');
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
     success('System recovery key copied to clipboard.');
@@ -59,7 +59,7 @@ export default function SecurityVaultPage() {
 
           <div className="flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5">
             <span className="font-mono text-yellow-500 font-medium tracking-wider">
-              WEBCOM-RESET-2026
+              PUNJAB-LAPTOP-RESET-2026
             </span>
             <button 
               onClick={handleCopy}
